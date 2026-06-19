@@ -43,7 +43,8 @@ function getSettings() {
     const defaultUrl = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '') + '/';
     const defaults = {
         baseUrl: defaultUrl,
-        target: 'direct' // Varsayılan olarak doğrudan PDF linkini ('direct') seçtik, mobilde en sorunsuz çalışan yöntemdir.
+        target: 'direct', // Varsayılan olarak doğrudan PDF linkini ('direct') seçtik, mobilde en sorunsuz çalışan yöntemdir.
+        printMode: 'grid' // Varsayılan yazdırma modu Çoklu Etiket (grid)
     };
     
     const saved = localStorage.getItem(SETTINGS_KEY);
@@ -60,6 +61,7 @@ function getSettings() {
 function saveSettings() {
     const domainInput = document.getElementById('settings-domain').value.trim();
     const targetSelect = document.getElementById('settings-target').value;
+    const printModeSelect = document.getElementById('settings-print-mode').value;
     
     if (!domainInput) {
         showToast("Lütfen geçerli bir URL girin.", "error");
@@ -74,7 +76,8 @@ function saveSettings() {
     
     const settings = {
         baseUrl: cleanUrl,
-        target: targetSelect
+        target: targetSelect,
+        printMode: printModeSelect
     };
     
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
@@ -84,19 +87,34 @@ function saveSettings() {
     renderAdminTable();
 }
 
-// 3. Yönlendirme Linki Oluşturucu
+// 3. Ortak PDF Tarayıcı Linki Hesaplayıcı (Mobil İndirmeyi Önlemek İçin Google Docs Viewer Entegrasyonu)
+function getPdfTargetUrl(pdfFile) {
+    const settings = getSettings();
+    const rawPdfUrl = `${settings.baseUrl}pdfs/${pdfFile}`;
+    
+    // Eğer yerel sunucuda çalışıyorsak (localhost veya 127.0.0.1) Google sunucuları bilgisayarımıza erişemez.
+    // Bu yüzden yerelde direkt PDF dosya yolunu döneriz.
+    // Canlıya (GitHub Pages) yüklendiğinde ise indirmeyi önlemek için Google Docs PDF Görüntüleyici bağlantısına sararız.
+    if (settings.baseUrl.includes('localhost') || settings.baseUrl.includes('127.0.0.1') || settings.baseUrl.startsWith('file://')) {
+        return rawPdfUrl;
+    } else {
+        return `https://docs.google.com/viewer?url=${encodeURIComponent(rawPdfUrl)}`;
+    }
+}
+
+// 4. Yönlendirme Linki Oluşturucu (Karekodların Yönleneceği Link)
 function getRedirectionUrl(poet) {
     const settings = getSettings();
     if (settings.target === 'direct') {
-        // Doğrudan PDF dosyasına yönlendirme yap (YENİ PENCEREDE DOSYA AÇIMI İÇİN EN UYGUNDUR)
-        return `${settings.baseUrl}pdfs/${poet.pdfFile}`;
+        // Doğrudan PDF dosyasına yönlendirme yap (Google Docs sarmalı)
+        return getPdfTargetUrl(poet.pdfFile);
     } else {
         // İndis sayfası üzerinden parametreli linke yönlendir
         return `${settings.baseUrl}index.html?poet=${poet.id}`;
     }
 }
 
-// 4. Veritabanı Yükleme
+// 5. Veritabanı Yükleme
 async function loadPoetData() {
     try {
         const res = await fetch('poets.json');
@@ -108,7 +126,7 @@ async function loadPoetData() {
     }
 }
 
-// 5. Sekmeler Arası Geçiş
+// 6. Sekmeler Arası Geçiş
 function switchTab(tabName) {
     document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
     document.querySelectorAll('.tab-nav-btn').forEach(btn => btn.classList.remove('active'));
@@ -124,7 +142,7 @@ function switchTab(tabName) {
     }
 }
 
-// 6. Şair Dönemlerini Çıkarma ve Filtreleri Çizme
+// 7. Şair Dönemlerini Çıkarma ve Filtreleri Çizme
 function renderPeriodFilters() {
     const container = document.getElementById('filter-container');
     const defaultBtn = container.querySelector('[data-period="all"]');
@@ -141,7 +159,7 @@ function renderPeriodFilters() {
     });
 }
 
-// 7. Şair Kataloğu Grid Görünümünü Çizme
+// 8. Şair Kataloğu Grid Görünümünü Çizme
 function renderCatalog() {
     const grid = document.getElementById('poet-grid');
     grid.innerHTML = '';
@@ -178,8 +196,8 @@ function renderCatalog() {
                     <button class="poet-btn-qr" title="Karekodu Gör" onclick="openQrModal('${poet.id}')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="10" height="10" x="3" y="3" rx="2"/><rect width="10" height="10" x="11" y="11" rx="2"/><path d="M3 17h6"/><path d="M17 3h6"/><path d="M17 8h6"/><path d="M17 13h1"/><path d="M22 13h1"/><path d="M13 17h1"/><path d="M13 22h1"/><path d="M8 21H3"/><path d="M8 17H7"/><path d="M7 22H3"/><path d="M17 17h6v5h-6z"/></svg>
                     </button>
-                    <!-- YENİ SEKMEDE PDF AÇMAK İÇİN DOĞRUDAN ANCHOR BAĞLANTISI KULLANILDI -->
-                    <a href="pdfs/${poet.pdfFile}" target="_blank" class="poet-btn">
+                    <!-- MOBİL UYUMLU GOOGLE DOCS SARMALI LİNKİ ENJEKTE EDİLDİ -->
+                    <a href="${getPdfTargetUrl(poet.pdfFile)}" target="_blank" class="poet-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                         PDF'i Oku
                     </a>
@@ -190,7 +208,7 @@ function renderCatalog() {
     });
 }
 
-// 8. Tekli Karekod Önizleme Modalı
+// 9. Tekli Karekod Önizleme Modalı
 function openQrModal(poetId) {
     const poet = allPoets.find(p => p.id === poetId);
     if (!poet) return;
@@ -322,7 +340,7 @@ function printSingleQrLabel(poet) {
     printWindow.document.close();
 }
 
-// 9. Admin Listesi Tablosunu Doldurma
+// 10. Admin Listesi Tablosunu Doldurma
 function renderAdminTable() {
     const tbody = document.getElementById('print-table-tbody');
     if (!tbody) return;
@@ -347,7 +365,7 @@ function toggleAllCheckboxes(checkedState) {
     document.querySelectorAll('.poet-print-checkbox').forEach(cb => cb.checked = checkedState);
 }
 
-// 10. Toplu A4 Karekod Çıktısı Alma Motoru
+// 11. Toplu A4 Karekod Çıktısı Alma Motoru
 async function printSelectedQrs() {
     const checkedBoxes = document.querySelectorAll('.poet-print-checkbox:checked');
     const selectedIds = Array.from(checkedBoxes).map(cb => cb.getAttribute('data-id'));
@@ -357,8 +375,20 @@ async function printSelectedQrs() {
         return;
     }
     
+    const settings = getSettings();
     const output = document.getElementById('print-grid-output');
     output.innerHTML = ''; // Temizle
+    
+    // Mod sınıfını ekle
+    output.className = '';
+    if (settings.printMode === 'single') {
+        output.classList.add('print-layout-single');
+    } else {
+        output.classList.add('print-layout-grid');
+    }
+    
+    // Moduna göre karekod çözünürlüğü belirle
+    const qrWidth = settings.printMode === 'single' ? 250 : 75;
     
     // Her seçilen şair için çıktı etiket hücresi oluştur
     for (const id of selectedIds) {
@@ -386,7 +416,7 @@ async function printSelectedQrs() {
         // Eşzamanlı çizimi bekle (canvas genişliği ayarla)
         await new Promise((resolve) => {
             QRCode.toCanvas(canvas, qrUrl, {
-                width: 75,
+                width: qrWidth,
                 margin: 1,
                 color: {
                     dark: '#000000',
@@ -400,7 +430,7 @@ async function printSelectedQrs() {
     window.print();
 }
 
-// 11. Bildirim Sistemi
+// 12. Bildirim Sistemi
 function showToast(msg, type = 'success') {
     let t = document.getElementById('app-toast');
     if (!t) {
@@ -427,6 +457,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const settings = getSettings();
     document.getElementById('settings-domain').value = settings.baseUrl;
     document.getElementById('settings-target').value = settings.target;
+    document.getElementById('settings-print-mode').value = settings.printMode || 'grid';
     
     // Şair verisini çek
     await loadPoetData();

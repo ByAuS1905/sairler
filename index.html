@@ -120,6 +120,18 @@
                         </p>
                     </div>
 
+                    <div class="form-group">
+                        <label for="settings-print-mode">Yazdırma Şablonu (Etiket Modu)</label>
+                        <select id="settings-print-mode" class="form-control">
+                            <option value="grid">Mod 1: Çoklu Etiket (A4 Etiket Sayfası)</option>
+                            <option value="single">Mod 2: Tek Sayfa (Her Sayfaya 1 Büyük Kart)</option>
+                        </select>
+                        <p style="font-size:0.7rem; color:var(--text-muted); margin-top:4px; line-height:1.3;">
+                            <strong>Çoklu Etiket:</strong> Bir A4 sayfasına 3 sütun halinde çok sayıda etiket basar.
+                            <br><strong>Tek Sayfa:</strong> Her şairin ismini ve karekodunu ayrı bir A4 sayfasına devasa boyutta basar (panolar için idealdir).
+                        </p>
+                    </div>
+
                     <button class="poet-btn btn-block" onclick="saveSettings()">Ayarları Kaydet</button>
 
                     <div style="margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1rem; font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">

@@ -729,8 +729,8 @@ footer {
         padding: 0 !important;
     }
 
-    /* Show print output container */
-    #print-grid-output {
+    /* Show print output container - Mod 1: Grid */
+    #print-grid-output.print-layout-grid {
         display: grid !important;
         grid-template-columns: repeat(3, 1fr) !important; /* 3 labels per row */
         gap: 15px !important;
@@ -739,8 +739,7 @@ footer {
         box-sizing: border-box !important;
     }
 
-    /* Sticker Card Style */
-    .print-sticker-card {
+    #print-grid-output.print-layout-grid .print-sticker-card {
         border: 1px dashed #000000 !important;
         background-color: #ffffff !important;
         padding: 12px !important;
@@ -753,14 +752,14 @@ footer {
         height: 40mm !important; /* Fixed height for consistency */
     }
 
-    .sticker-info {
+    #print-grid-output.print-layout-grid .sticker-info {
         flex-grow: 1 !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: center !important;
     }
 
-    .sticker-school {
+    #print-grid-output.print-layout-grid .sticker-school {
         font-size: 0.55rem !important;
         font-weight: 700 !important;
         text-transform: uppercase !important;
@@ -771,7 +770,7 @@ footer {
         letter-spacing: 0.05em !important;
     }
 
-    .sticker-poet {
+    #print-grid-output.print-layout-grid .sticker-poet {
         font-family: Georgia, serif !important;
         font-size: 0.95rem !important;
         font-weight: 700 !important;
@@ -779,13 +778,13 @@ footer {
         line-height: 1.2 !important;
     }
 
-    .sticker-period {
+    #print-grid-output.print-layout-grid .sticker-period {
         font-size: 0.65rem !important;
         color: #555555 !important;
         margin-top: 2px !important;
     }
 
-    .sticker-qr-holder {
+    #print-grid-output.print-layout-grid .sticker-qr-holder {
         width: 75px !important;
         height: 75px !important;
         border: 1px solid #000000 !important;
@@ -796,7 +795,83 @@ footer {
         justify-content: center !important;
     }
 
-    .sticker-qr-holder canvas {
+    #print-grid-output.print-layout-grid .sticker-qr-holder canvas {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+
+    /* Show print output container - Mod 2: Single Page (1 card per page) */
+    #print-grid-output.print-layout-single {
+        display: block !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    #print-grid-output.print-layout-single .print-sticker-card {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        height: 100vh !important; /* Takes full height of printed page */
+        width: 100% !important;
+        page-break-after: always !important; /* Force page break after each card */
+        border: none !important;
+        padding: 40mm 20mm !important;
+        box-sizing: border-box !important;
+        gap: 30px !important;
+    }
+
+    #print-grid-output.print-layout-single .sticker-info {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        margin-bottom: 20px !important;
+    }
+
+    #print-grid-output.print-layout-single .sticker-school {
+        font-size: 1.1rem !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        color: #000000 !important;
+        border-bottom: 2px solid #000000 !important;
+        padding-bottom: 8px !important;
+        margin-bottom: 25px !important;
+        letter-spacing: 0.1em !important;
+        width: 100% !important;
+        max-width: 400px !important;
+    }
+
+    #print-grid-output.print-layout-single .sticker-poet {
+        font-family: Georgia, serif !important;
+        font-size: 2.8rem !important; /* Large heading */
+        font-weight: 700 !important;
+        color: #000000 !important;
+        line-height: 1.1 !important;
+    }
+
+    #print-grid-output.print-layout-single .sticker-period {
+        font-size: 1.3rem !important;
+        color: #333333 !important;
+        margin-top: 10px !important;
+        font-style: italic !important;
+    }
+
+    #print-grid-output.print-layout-single .sticker-qr-holder {
+        width: 250px !important; /* Massive QR code */
+        height: 250px !important;
+        border: 2px solid #000000 !important;
+        padding: 10px !important;
+        background-color: #ffffff !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: 8px !important;
+    }
+
+    #print-grid-output.print-layout-single .sticker-qr-holder canvas {
         max-width: 100% !important;
         height: auto !important;
     }
