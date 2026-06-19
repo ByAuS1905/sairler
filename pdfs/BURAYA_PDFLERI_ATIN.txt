@@ -1,0 +1,9 @@
+Bu klasörün içerisine şairlerinize ait 30 adet PDF dosyasını yükleyin.
+
+Önemli Notlar:
+1. PDF dosyalarınızın isimleri 'poets.json' dosyasındaki (veya yönetim panelindeki tabloda listelenen) 'pdfFile' isimleriyle birebir aynı olmalıdır.
+   Örnek:
+   - Cahit Sıtkı Tarancı için: cahit-sitki-taranci.pdf
+   - Nazım Hikmet Ran için: nazim-hikmet-ran.pdf
+   
+2. Harf duyarlılığına ve Türkçe karakterlere dikkat edin (Kullanıcı arayüzünde sorun yaşamamak için dosya isimlerinde küçük harfler ve Türkçe karakter yerine İngilizce karakterler kullanılması önerilir. poets.json dosyası bu standarda göre hazırlanmıştır).
