@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kütüphane Yönetim Paneli | Karekod Kütüphane</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header / Nav -->
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo-section">
+                <!-- SVG MEB Logo Representation -->
+                <svg class="meb-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="48" fill="#c2410c" />
+                    <circle cx="50" cy="50" r="44" fill="#ffffff" />
+                    <circle cx="50" cy="50" r="41" fill="#b91c1c" />
+                    <path d="M25 65C35 65 45 68 50 72C55 68 65 65 75 65V35C65 35 55 38 50 42C45 38 35 35 25 35V65Z" fill="#ffffff" />
+                    <path d="M50 42V72" stroke="#b91c1c" stroke-width="2" />
+                    <path d="M50 20C47 25 45 28 47 31C49 34 51 34 53 31C55 28 53 25 50 20Z" fill="#eab308" />
+                    <path d="M47 31C48 32 49 33 50 33C51 33 52 32 53 31L50 38L47 31Z" fill="#ffffff" />
+                    <circle cx="50" cy="11" r="1.5" fill="#ffffff"/>
+                    <circle cx="68" cy="16" r="1.5" fill="#ffffff"/>
+                    <circle cx="81" cy="29" r="1.5" fill="#ffffff"/>
+                    <circle cx="87" cy="46" r="1.5" fill="#ffffff"/>
+                    <circle cx="84" cy="64" r="1.5" fill="#ffffff"/>
+                    <circle cx="73" cy="78" r="1.5" fill="#ffffff"/>
+                    <circle cx="58" cy="86" r="1.5" fill="#ffffff"/>
+                    <circle cx="42" cy="86" r="1.5" fill="#ffffff"/>
+                    <circle cx="27" cy="78" r="1.5" fill="#ffffff"/>
+                    <circle cx="16" cy="64" r="1.5" fill="#ffffff"/>
+                    <circle cx="13" cy="46" r="1.5" fill="#ffffff"/>
+                    <circle cx="19" cy="29" r="1.5" fill="#ffffff"/>
+                    <circle cx="32" cy="16" r="1.5" fill="#ffffff"/>
+                </svg>
+                <div class="school-info">
+                    <h1>Hasan Aybaba Anadolu Lisesi</h1>
+                    <p>Karekod Kütüphane Sistemi</p>
+                </div>
+            </a>
+            <div class="nav-controls">
+                <nav>
+                    <ul class="nav-links">
+                        <li><a href="index.html">Kütüphane</a></li>
+                        <li><a href="admin.html" class="active">Yönetim Paneli</a></li>
+                    </ul>
+                </nav>
+                <button id="theme-toggle-btn" class="theme-toggle-btn" title="Temayı Değiştir" aria-label="Temayı Değiştir">
+                    <!-- Icon loaded by JS -->
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="admin-container">
+            <!-- Sol Menü: Ayarlar, İhracat, İpuçları -->
+            <aside class="admin-sidebar">
+                <!-- Canlı Yayın Ayarları -->
+                <div class="admin-stats-box">
+                    <h4 class="metadata-title" style="margin-bottom:12px;">Karekod Yönlendirme Ayarı</h4>
+                    <div class="form-group" style="margin-bottom:12px;">
+                        <label for="settings-url">Canlı Site Adresi (Base URL)</label>
+                        <input type="url" id="settings-url" class="form-control" style="font-size:0.85rem;" placeholder="Örn: https://hasanaybaba.meb.k12.tr/karekod/">
+                        <p style="font-size:0.75rem; color:var(--text-muted); margin-top:5px; line-height:1.3;">
+                            Karekodların telefondan taratıldığında canlı sitedeki doğru sayfalara gitmesi için buraya projenin yükleneceği adresi girin.
+                        </p>
+                    </div>
+                    <button class="btn-primary" style="width:100%; font-size:0.85rem; padding:8px 12px;" onclick="updateSettings()">
+                        Ayarları Kaydet
+                    </button>
+                </div>
+
+                <!-- Veri İhracat / İthalat -->
+                <div class="admin-stats-box">
+                    <h4 class="metadata-title" style="margin-bottom:12px;">Veritabanı Güncelleme</h4>
+                    <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px; line-height:1.4;">
+                        Sisteme yeni kitap ekledikten veya sildikten sonra, aşağıdaki butona tıklayarak güncel <strong>books.json</strong> dosyasını bilgisayarınıza indirin ve projenin içindeki eski dosya ile değiştirip MEB sunucusuna yükleyin.
+                    </p>
+                    <button class="btn-primary" style="width:100%; margin-bottom:10px; background-color:var(--accent);" onclick="exportDatabaseFile()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                        books.json İndir
+                    </button>
+                    <button class="btn-secondary" style="width:100%;" onclick="toggleJsonExportArea()">
+                        JSON Kodunu Kopyala
+                    </button>
+                    
+                    <div id="json-export-container" class="json-export-area" style="display:none;">
+                        <textarea id="json-export-textarea" class="json-textarea" readonly></textarea>
+                        <button class="btn-secondary" style="width:100%; margin-top:8px;" onclick="copyJsonCode()">
+                            Kodu Kopyala
+                        </button>
+                    </div>
+                </div>
+
+                <!-- İpuçları -->
+                <div class="admin-stats-box" style="font-size:0.85rem; line-height:1.5;">
+                    <h4 class="metadata-title" style="margin-bottom:10px; color:var(--accent);">Nasıl Kullanılır?</h4>
+                    <ul style="padding-left:18px; display:flex; flex-direction:column; gap:8px;">
+                        <li>Yeni bir kitap eklemek için sağ üstteki <strong>"Yeni Kitap Ekle"</strong> butonunu kullanın.</li>
+                        <li>Kitabın kapak renklerini ve desenini form üzerinden tasarlayın.</li>
+                        <li>Kaydettiğinizde değişiklikler geçici olarak tarayıcı belleğine (local) kaydedilir.</li>
+                        <li>Fiziksel kitaplara yapıştırmak üzere toplu karekod etiket çıktısı almak için <strong>"Karekod Basım Merkezi"</strong> sekmesine geçin.</li>
+                        <li>Tüm işlemler bitince <strong>"books.json İndir"</strong> butonuyla veriyi kalıcı hale getirin.</li>
+                    </ul>
+                </div>
+            </aside>
+
+            <!-- Sağ Panel: Kitap Tablosu ve Karekod Çıktı Merkezi -->
+            <section class="admin-main">
+                <div class="tabs-navigation" style="margin-bottom:1.5rem;">
+                    <button class="tab-btn active" id="btn-tab-books" onclick="switchAdminTab('tab-books-list')">Kitap Listesi</button>
+                    <button class="tab-btn" id="btn-tab-print" onclick="switchAdminTab('tab-print-center')">Karekod Basım Merkezi</button>
+                </div>
+
+                <!-- Sekme 1: Kitap Listesi -->
+                <div id="tab-books-list" class="tab-content active">
+                    <div class="admin-section-header">
+                        <h3 class="admin-section-title">Kütüphane Kitap Listesi</h3>
+                        <button class="btn-primary" onclick="openAddBookModal()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                            Yeni Kitap Ekle
+                        </button>
+                    </div>
+                    
+                    <div style="overflow-x:auto;">
+                        <table class="admin-list-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 80px;">Kapak</th>
+                                    <th>Kitap Adı / Yazar</th>
+                                    <th>Kategori (Tür)</th>
+                                    <th>Sayfa / Yayınevi</th>
+                                    <th style="width: 150px; text-align: center;">İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-books-tbody">
+                                <!-- Books rendered by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Sekme 2: Toplu Karekod Basım Merkezi -->
+                <div id="tab-print-center" class="tab-content">
+                    <div class="admin-section-header">
+                        <div>
+                            <h3 class="admin-section-title">Karekod Toplu Basım Şablonu</h3>
+                            <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">Yazdırmak istediğiniz kitapları seçin ve 'Seçilenleri Toplu Yazdır' butonuna basın.</p>
+                        </div>
+                        <div style="display:flex; gap:10px;">
+                            <button class="btn-secondary" style="width:auto; padding:8px 16px;" onclick="toggleSelectAllPrint(true)">Tümünü Seç</button>
+                            <button class="btn-secondary" style="width:auto; padding:8px 16px;" onclick="toggleSelectAllPrint(false)">Seçimleri Kaldır</button>
+                            <button class="btn-primary" style="background-color:#16a34a;" onclick="triggerBatchPrint()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg>
+                                Seçilenleri Toplu Yazdır
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Printable A4 grid structure -->
+                    <div id="print-hub-layout" class="print-hub-layout">
+                        <!-- Printed badges generated here by JS -->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modal: Kitap Ekleme / Düzenleme Formu -->
+    <div id="book-form-modal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="modal-form-title">Yeni Kitap Ekle</h3>
+                <button class="modal-close" onclick="closeBookFormModal()">&times;</button>
+            </div>
+            <form id="book-editor-form" onsubmit="handleBookFormSubmit(event)">
+                <input type="hidden" id="edit-book-index" value="-1">
+                
+                <div class="modal-body">
+                    <div class="form-row">
+                        <!-- Kitap ID / Slug (URL için benzersiz ad) -->
+                        <div class="form-group">
+                            <label for="book-form-id">Benzersiz Kitap Kimliği (Slug / URL Kodu)</label>
+                            <input type="text" id="book-form-id" class="form-control" placeholder="Örn: calikusu veya suc-ve-ceza" required pattern="^[a-z0-9\-]+$">
+                            <p style="font-size:0.7rem; color:var(--text-muted);">Sadece küçük harf, rakam ve tire (-) içermelidir (Örn: sefiller).</p>
+                        </div>
+                        <!-- Kitap Adı -->
+                        <div class="form-group">
+                            <label for="book-form-title">Kitap Adı</label>
+                            <input type="text" id="book-form-title" class="form-control" placeholder="Kitabın adı" required oninput="autoGenerateSlug(this.value)">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <!-- Yazar -->
+                        <div class="form-group">
+                            <label for="book-form-author">Yazar</label>
+                            <input type="text" id="book-form-author" class="form-control" placeholder="Yazarın adı ve soyadı" required>
+                        </div>
+                        <!-- Kategori (Tür) -->
+                        <div class="form-group">
+                            <label for="book-form-genre">Kategori / Kitap Türü</label>
+                            <select id="book-form-genre" class="form-control" required>
+                                <option value="">Seçiniz...</option>
+                                <option value="Roman">Roman</option>
+                                <option value="Psikolojik Roman">Psikolojik Roman</option>
+                                <option value="Tarih / Belgesel">Tarih / Belgesel</option>
+                                <option value="Tarihi / Klasik Roman">Tarihi / Klasik Roman</option>
+                                <option value="Şiir">Şiir</option>
+                                <option value="Hikaye">Hikaye</option>
+                                <option value="Felsefi / Fabl">Felsefi / Fabl</option>
+                                <option value="Kişisel Gelişim">Kişisel Gelişim</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <!-- Sayfa Sayısı -->
+                        <div class="form-group">
+                            <label for="book-form-pages">Sayfa Sayısı</label>
+                            <input type="number" id="book-form-pages" class="form-control" min="1" placeholder="Sayfa sayısı">
+                        </div>
+                        <!-- Yayınevi -->
+                        <div class="form-group">
+                            <label for="book-form-publisher">Yayınevi</label>
+                            <input type="text" id="book-form-publisher" class="form-control" placeholder="Yayın evi adı">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <!-- Basım Yılı -->
+                        <div class="form-group">
+                            <label for="book-form-year">Yayın Yılı</label>
+                            <input type="number" id="book-form-year" class="form-control" placeholder="Orijinal yayın yılı">
+                        </div>
+                        <!-- Değerlendirme Puanı -->
+                        <div class="form-group">
+                            <label for="book-form-rating">Puan (1.0 - 5.0)</label>
+                            <input type="number" id="book-form-rating" class="form-control" step="0.1" min="1" max="5" placeholder="Puanı" value="4.5" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <!-- Kapak Rengi -->
+                        <div class="form-group">
+                            <label for="book-form-cover-color">Kapak Arka Plan Rengi</label>
+                            <input type="color" id="book-form-cover-color" class="form-control" style="height:40px; padding:2px;" value="#1e3a8a">
+                        </div>
+                        <!-- Kapak Deseni -->
+                        <div class="form-group">
+                            <label for="book-form-cover-pattern">Kapak Süsleme Deseni</label>
+                            <select id="book-form-cover-pattern" class="form-control">
+                                <option value="diagonal">Köşegen Çizgiler</option>
+                                <option value="stripes">Dikey Çizgiler</option>
+                                <option value="dots">Noktalı Desen</option>
+                                <option value="none">Sade (Desensiz)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Ekleyen Kulüp / Kişi -->
+                    <div class="form-group">
+                        <label for="book-form-addedby">Veriyi Ekleyen Kulüp / Yetkili</label>
+                        <input type="text" id="book-form-addedby" class="form-control" placeholder="Örn: Hasan Aybaba A.L. Edebiyat Kulübü" value="Hasan Aybaba A.L. Kütüphane Kulübü">
+                    </div>
+
+                    <!-- Özet -->
+                    <div class="form-group">
+                        <label for="book-form-summary">Kitap Özeti</label>
+                        <textarea id="book-form-summary" class="form-control" style="min-height:120px;" placeholder="Kitabın detaylı özet metnini buraya yazın..." required></textarea>
+                    </div>
+
+                    <!-- Analiz -->
+                    <div class="form-group">
+                        <label for="book-form-analysis">Edebi Analiz / Tema ve Mesajlar</label>
+                        <textarea id="book-form-analysis" class="form-control" style="min-height:100px;" placeholder="Kitaptaki ana fikir, tema, yazarın vermek istediği edebi mesajlar..." required></textarea>
+                    </div>
+
+                    <!-- Dinamik Karakterler -->
+                    <div class="form-group">
+                        <label style="display:flex; justify-content:space-between; align-items:center;">
+                            <span>Başlıca Karakterler</span>
+                            <button type="button" class="btn-secondary" style="width:auto; padding:4px 8px; font-size:0.75rem;" onclick="addCharacterRow()">+ Karakter Ekle</button>
+                        </label>
+                        <div id="modal-characters-container" style="display:flex; flex-direction:column; gap:8px; margin-top:8px;">
+                            <!-- Character input rows inserted by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Dinamik Alıntılar -->
+                    <div class="form-group">
+                        <label style="display:flex; justify-content:space-between; align-items:center;">
+                            <span>Önemli Alıntılar</span>
+                            <button type="button" class="btn-secondary" style="width:auto; padding:4px 8px; font-size:0.75rem;" onclick="addQuoteRow()">+ Alıntı Ekle</button>
+                        </label>
+                        <div id="modal-quotes-container" style="display:flex; flex-direction:column; gap:8px; margin-top:8px;">
+                            <!-- Quote input rows inserted by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" style="width:auto;" onclick="closeBookFormModal()">Vazgeç</button>
+                    <button type="submit" class="btn-primary" style="width:auto;">Kitabı Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2026 Hasan Aybaba Anadolu Lisesi Kütüphanesi. Tüm Hakları Saklıdır.</p>
+            <p style="font-size: 0.75rem;">Bu proje okulumuz kütüphanesini dijitalleştirmek ve okuma alışkanlığını teşvik etmek amacıyla geliştirilmiştir.</p>
+            <ul class="footer-links">
+                <li><a href="https://hasanaybaba.meb.k12.tr/" target="_blank">Okul Web Sitesi</a></li>
+                <li><a href="index.html">Kütüphane Ana Sayfası</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- QR Code Library via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
+    <!-- Common App Script -->
+    <script src="app.js"></script>
+
+    <!-- Page Logic Script -->
+    <script>
+        let adminBooks = [];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Kitapları Çek
+            adminBooks = await fetchBooks();
+
+            // Ayarları Yükle
+            const settings = getSettings();
+            document.getElementById('settings-url').value = settings.baseUrl;
+
+            // Listeleri Oluştur
+            renderAdminBooksTable();
+            renderPrintHubBadges();
+        });
+
+        // 1. Ayar Yönetimi
+        function updateSettings() {
+            const urlInput = document.getElementById('settings-url').value.trim();
+            if (!urlInput) {
+                showToast("Lütfen geçerli bir URL girin.", "error");
+                return;
+            }
+            
+            saveSettings({ baseUrl: urlInput });
+            showToast("Karekod bağlantı ayarları güncellendi!");
+            
+            // Karekodları yeniden çizdir ki yeni linklerle basılsın
+            renderPrintHubBadges();
+        }
+
+        // 2. Sekmeler Arası Geçiş
+        function switchAdminTab(tabId) {
+            document.querySelectorAll('.admin-main .tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.admin-main .tab-btn').forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            
+            if (tabId === 'tab-books-list') {
+                document.getElementById('btn-tab-books').classList.add('active');
+            } else if (tabId === 'tab-print-center') {
+                document.getElementById('btn-tab-print').classList.add('active');
+                renderPrintHubBadges(); // Güncel karekodları çiz
+            }
+        }
+
+        // 3. Tablo Görünümü Oluşturma
+        function renderAdminBooksTable() {
+            const tbody = document.getElementById('admin-books-tbody');
+            tbody.innerHTML = '';
+
+            if (adminBooks.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:2rem; color:var(--text-muted);">Sistemde kayıtlı kitap bulunmuyor. Yeni kitap ekleyin!</td></tr>`;
+                return;
+            }
+
+            adminBooks.forEach((book, idx) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <div style="width:50px; height:70px; border-radius:4px; overflow:hidden; box-shadow:var(--shadow);">
+                            ${generateCoverHTML(book)}
+                        </div>
+                    </td>
+                    <td>
+                        <strong style="font-size:1rem; color:var(--text);">${book.title}</strong>
+                        <div style="font-size:0.8rem; color:var(--text-muted);">${book.author}</div>
+                    </td>
+                    <td>
+                        <span class="cover-badge" style="background-color: var(--border); color: var(--text); border:1px solid var(--border); font-family:var(--font-sans); font-size:0.75rem;">
+                            ${book.genre}
+                        </span>
+                    </td>
+                    <td>
+                        <div style="font-weight:500;">${book.pageCount || '-'} Sayfa</div>
+                        <div style="font-size:0.8rem; color:var(--text-muted);">${book.publisher || '-'}</div>
+                    </td>
+                    <td style="text-align: center;">
+                        <button class="action-icon-btn btn-edit" title="Düzenle" onclick="openEditBookModal(${idx})">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                        </button>
+                        <button class="action-icon-btn btn-delete" title="Sil" onclick="deleteBook(${idx})">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // 4. Ekleme / Düzenleme Modal İşlemleri
+        function openAddBookModal() {
+            document.getElementById('modal-form-title').textContent = "Yeni Kitap Ekle";
+            document.getElementById('edit-book-index').value = "-1";
+            document.getElementById('book-editor-form').reset();
+            document.getElementById('book-form-id').readOnly = false;
+            
+            // Dinamik listeleri temizle
+            document.getElementById('modal-characters-container').innerHTML = '';
+            document.getElementById('modal-quotes-container').innerHTML = '';
+            
+            // İlk varsayılan boş satırları ekle
+            addCharacterRow();
+            addQuoteRow();
+
+            document.getElementById('book-form-modal').classList.add('active');
+        }
+
+        function openEditBookModal(index) {
+            const book = adminBooks[index];
+            if (!book) return;
+
+            document.getElementById('modal-form-title').textContent = "Kitap Düzenle: " + book.title;
+            document.getElementById('edit-book-index').value = index;
+            
+            document.getElementById('book-form-id').value = book.id;
+            document.getElementById('book-form-id').readOnly = true; // Kimlik değiştirilemez
+            
+            document.getElementById('book-form-title').value = book.title;
+            document.getElementById('book-form-author').value = book.author;
+            document.getElementById('book-form-genre').value = book.genre;
+            document.getElementById('book-form-pages').value = book.pageCount || '';
+            document.getElementById('book-form-publisher').value = book.publisher || '';
+            document.getElementById('book-form-year').value = book.publishYear || '';
+            document.getElementById('book-form-rating').value = book.rating;
+            document.getElementById('book-form-cover-color').value = book.coverColor || '#1e3a8a';
+            document.getElementById('book-form-cover-pattern').value = book.coverPattern || 'diagonal';
+            document.getElementById('book-form-addedby').value = book.addedBy || '';
+            document.getElementById('book-form-summary').value = book.summary || '';
+            document.getElementById('book-form-analysis').value = book.analysis || '';
+
+            // Karakterleri yükle
+            const charContainer = document.getElementById('modal-characters-container');
+            charContainer.innerHTML = '';
+            if (book.characters && book.characters.length > 0) {
+                book.characters.forEach(char => addCharacterRow(char.name, char.role));
+            } else {
+                addCharacterRow();
+            }
+
+            // Alıntıları yükle
+            const quoteContainer = document.getElementById('modal-quotes-container');
+            quoteContainer.innerHTML = '';
+            if (book.quotes && book.quotes.length > 0) {
+                book.quotes.forEach(quote => addQuoteRow(quote));
+            } else {
+                addQuoteRow();
+            }
+
+            document.getElementById('book-form-modal').classList.add('active');
+        }
+
+        function closeBookFormModal() {
+            document.getElementById('book-form-modal').classList.remove('active');
+        }
+
+        // Başlıktan otomatik ID / Slug üretme
+        function autoGenerateSlug(title) {
+            const index = document.getElementById('edit-book-index').value;
+            if (index !== "-1") return; // Düzenleme modunda ezme
+
+            const slug = title.toLowerCase()
+                .replace(/ğ/g, 'g')
+                .replace(/ü/g, 'u')
+                .replace(/ş/g, 's')
+                .replace(/ı/g, 'i')
+                .replace(/ö/g, 'o')
+                .replace(/ç/g, 'c')
+                .replace(/[^a-z0-9\s-]/g, '')
+                .trim()
+                .replace(/\s+/g, '-');
+            
+            document.getElementById('book-form-id').value = slug;
+        }
+
+        // Karakter Satır Yönetimi
+        function addCharacterRow(name = '', role = '') {
+            const container = document.getElementById('modal-characters-container');
+            const div = document.createElement('div');
+            div.style.display = 'flex';
+            div.style.gap = '8px';
+            div.className = 'character-row-item';
+            div.innerHTML = `
+                <input type="text" class="form-control char-name" style="flex: 1;" placeholder="Karakter Adı" value="${name.replace(/"/g, '&quot;')}" required>
+                <input type="text" class="form-control char-role" style="flex: 2;" placeholder="Rolü / Özelliği" value="${role.replace(/"/g, '&quot;')}" required>
+                <button type="button" class="action-icon-btn btn-delete" style="flex-shrink:0; height:40px; width:40px;" onclick="this.parentElement.remove()">&times;</button>
+            `;
+            container.appendChild(div);
+        }
+
+        // Alıntı Satır Yönetimi
+        function addQuoteRow(text = '') {
+            const container = document.getElementById('modal-quotes-container');
+            const div = document.createElement('div');
+            div.style.display = 'flex';
+            div.style.gap = '8px';
+            div.className = 'quote-row-item';
+            div.innerHTML = `
+                <textarea class="form-control quote-text" style="flex: 1; min-height:40px; height:40px;" placeholder="Kitaptan bir alıntı cümle..." required>${text}</textarea>
+                <button type="button" class="action-icon-btn btn-delete" style="flex-shrink:0; height:40px; width:40px;" onclick="this.parentElement.remove()">&times;</button>
+            `;
+            container.appendChild(div);
+        }
+
+        // Form Gönderme İşlemi
+        function handleBookFormSubmit(event) {
+            event.preventDefault();
+            
+            const index = parseInt(document.getElementById('edit-book-index').value);
+            const bookId = document.getElementById('book-form-id').value.trim();
+
+            // ID çakışma kontrolü (Sadece yeni eklemede)
+            if (index === -1) {
+                const exists = adminBooks.some(b => b.id === bookId);
+                if (exists) {
+                    showToast("Bu kitap kimliği (Slug) zaten kullanılıyor!", "error");
+                    return;
+                }
+            }
+
+            // Dinamik karakterleri topla
+            const charRows = document.querySelectorAll('.character-row-item');
+            const characters = [];
+            charRows.forEach(row => {
+                const name = row.querySelector('.char-name').value.trim();
+                const role = row.querySelector('.char-role').value.trim();
+                if (name && role) {
+                    characters.push({ name, role });
+                }
+            });
+
+            // Dinamik alıntıları topla
+            const quoteRows = document.querySelectorAll('.quote-row-item');
+            const quotes = [];
+            quoteRows.forEach(row => {
+                const val = row.querySelector('.quote-text').value.trim();
+                if (val) {
+                    quotes.push(val);
+                }
+            });
+
+            const bookData = {
+                id: bookId,
+                title: document.getElementById('book-form-title').value.trim(),
+                author: document.getElementById('book-form-author').value.trim(),
+                genre: document.getElementById('book-form-genre').value,
+                pageCount: parseInt(document.getElementById('book-form-pages').value) || null,
+                publisher: document.getElementById('book-form-publisher').value.trim() || null,
+                publishYear: parseInt(document.getElementById('book-form-year').value) || null,
+                rating: parseFloat(document.getElementById('book-form-rating').value) || 4.5,
+                coverColor: document.getElementById('book-form-cover-color').value,
+                coverPattern: document.getElementById('book-form-cover-pattern').value,
+                addedBy: document.getElementById('book-form-addedby').value.trim(),
+                summary: document.getElementById('book-form-summary').value.trim(),
+                analysis: document.getElementById('book-form-analysis').value.trim(),
+                characters: characters,
+                quotes: quotes
+            };
+
+            if (index === -1) {
+                // Yeni Ekle
+                adminBooks.push(bookData);
+                showToast("Yeni kitap kütüphaneye eklendi!");
+            } else {
+                // Düzenle
+                adminBooks[index] = bookData;
+                showToast("Kitap bilgileri güncellendi!");
+            }
+
+            // Veriyi kaydet ve ekranı yenile
+            saveBooksToLocal(adminBooks);
+            renderAdminBooksTable();
+            closeBookFormModal();
+        }
+
+        // Kitap Silme
+        function deleteBook(index) {
+            const book = adminBooks[index];
+            if (!book) return;
+
+            if (confirm(`"${book.title}" kitabını kütüphaneden silmek istediğinize emin misiniz?`)) {
+                adminBooks.splice(index, 1);
+                saveBooksToLocal(adminBooks);
+                renderAdminBooksTable();
+                showToast("Kitap veritabanından silindi!");
+            }
+        }
+
+        // 5. Karekod Toplu Basım Şablonu Çizim Motoru
+        function renderPrintHubBadges() {
+            const printHub = document.getElementById('print-hub-layout');
+            printHub.innerHTML = '';
+
+            if (adminBooks.length === 0) {
+                printHub.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:2rem; color:var(--text-muted);">Basılacak kitap bulunmuyor.</div>`;
+                return;
+            }
+
+            adminBooks.forEach((book, index) => {
+                const badge = document.createElement('div');
+                badge.className = 'qr-printable-badge';
+                badge.innerHTML = `
+                    <div class="qr-badge-info">
+                        <div class="qr-badge-school">H.A.A.L. Kütüphanesi</div>
+                        <div class="qr-badge-title">${book.title}</div>
+                        <div class="qr-badge-author">${book.author}</div>
+                    </div>
+                    <div class="qr-badge-code" id="print-qr-canvas-wrapper-${book.id}">
+                        <canvas id="print-qr-canvas-${book.id}"></canvas>
+                    </div>
+                    <input type="checkbox" class="qr-badge-checkbox" data-book-id="${book.id}" checked>
+                `;
+                printHub.appendChild(badge);
+
+                // Karekod Çiz
+                const detailUrl = getBookDetailUrl(book.id);
+                const canvas = document.getElementById(`print-qr-canvas-${book.id}`);
+                
+                QRCode.toCanvas(canvas, detailUrl, {
+                    width: 90,
+                    margin: 1,
+                    color: {
+                        dark: '#000000',
+                        light: '#ffffff'
+                    }
+                }, (error) => {
+                    if (error) console.error("Basım etiket karekod çizim hatası:", error);
+                });
+            });
+        }
+
+        // Toplu Seç / Seçimi Kaldır
+        function toggleSelectAllPrint(isSelected) {
+            const checkboxes = document.querySelectorAll('.qr-badge-checkbox');
+            checkboxes.forEach(cb => cb.checked = isSelected);
+        }
+
+        // Toplu Yazdırmayı Tetikle
+        function triggerBatchPrint() {
+            const checkboxes = document.querySelectorAll('.qr-badge-checkbox');
+            const selectedIds = [];
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    selectedIds.push(cb.getAttribute('data-book-id'));
+                }
+            });
+
+            if (selectedIds.length === 0) {
+                showToast("Lütfen yazdırılacak en az bir kitap seçin.", "error");
+                return;
+            }
+
+            // Yazdırma modunda sadece seçili olmayan etiketleri gizleyeceğiz.
+            // Bunun için geçici bir stil ekleyip yazdırma bittikten sonra silebiliriz.
+            const allBadges = document.querySelectorAll('.qr-printable-badge');
+            allBadges.forEach(badge => {
+                const cb = badge.querySelector('.qr-badge-checkbox');
+                const id = cb.getAttribute('data-book-id');
+                if (!selectedIds.includes(id)) {
+                    badge.setAttribute('data-print-hide', 'true');
+                } else {
+                    badge.removeAttribute('data-print-hide');
+                }
+            });
+
+            // Ekstra gizleme stili enjekte et
+            const style = document.createElement('style');
+            style.id = 'temp-print-style';
+            style.textContent = `
+                @media print {
+                    .qr-printable-badge[data-print-hide="true"] {
+                        display: none !important;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Yazdır
+            window.print();
+
+            // Temizlik
+            setTimeout(() => {
+                const s = document.getElementById('temp-print-style');
+                if (s) s.remove();
+                allBadges.forEach(b => b.removeAttribute('data-print-hide'));
+            }, 1000);
+        }
+
+        // 6. JSON İhracat Sistemi
+        let isJsonAreaVisible = false;
+        
+        function toggleJsonExportArea() {
+            const container = document.getElementById('json-export-container');
+            const textarea = document.getElementById('json-export-textarea');
+            
+            isJsonAreaVisible = !isJsonAreaVisible;
+            
+            if (isJsonAreaVisible) {
+                textarea.value = JSON.stringify(adminBooks, null, 2);
+                container.style.display = 'block';
+            } else {
+                container.style.display = 'none';
+            }
+        }
+
+        function copyJsonCode() {
+            const textarea = document.getElementById('json-export-textarea');
+            textarea.select();
+            document.execCommand('copy');
+            showToast("JSON verisi panoya kopyalandı!");
+        }
+
+        function exportDatabaseFile() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(adminBooks, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href",     dataStr);
+            downloadAnchor.setAttribute("download", "books.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+            showToast("books.json indirilmeye başlandı!");
+        }
+    </script>
+</body>
+</html>

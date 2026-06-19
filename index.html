@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasan Aybaba Anadolu Lisesi | Şairlerimiz Karekod Projesi</title>
+    <meta name="description" content="Hasan Aybaba Anadolu Lisesi Şairlerimiz Karekod Projesi. Şair tanıtımları, edebi bilgiler ve karekod yönlendirmeli PDF dosyaları.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header / Nav -->
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo-section">
+                <!-- SVG MEB Logo Representation -->
+                <svg class="meb-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="48" fill="#c2410c" />
+                    <circle cx="50" cy="50" r="44" fill="#ffffff" />
+                    <circle cx="50" cy="50" r="41" fill="#b91c1c" />
+                    <path d="M25 65C35 65 45 68 50 72C55 68 65 65 75 65V35C65 35 55 38 50 42C45 38 35 35 25 35V65Z" fill="#ffffff" />
+                    <path d="M50 42V72" stroke="#b91c1c" stroke-width="2" />
+                    <path d="M50 20C47 25 45 28 47 31C49 34 51 34 53 31C55 28 53 25 50 20Z" fill="#eab308" />
+                    <path d="M47 31C48 32 49 33 50 33C51 33 52 32 53 31L50 38L47 31Z" fill="#ffffff" />
+                    <circle cx="50" cy="11" r="1.5" fill="#ffffff"/>
+                    <circle cx="68" cy="16" r="1.5" fill="#ffffff"/>
+                    <circle cx="81" cy="29" r="1.5" fill="#ffffff"/>
+                    <circle cx="87" cy="46" r="1.5" fill="#ffffff"/>
+                    <circle cx="84" cy="64" r="1.5" fill="#ffffff"/>
+                    <circle cx="73" cy="78" r="1.5" fill="#ffffff"/>
+                    <circle cx="58" cy="86" r="1.5" fill="#ffffff"/>
+                    <circle cx="42" cy="86" r="1.5" fill="#ffffff"/>
+                    <circle cx="27" cy="78" r="1.5" fill="#ffffff"/>
+                    <circle cx="16" cy="64" r="1.5" fill="#ffffff"/>
+                    <circle cx="13" cy="46" r="1.5" fill="#ffffff"/>
+                    <circle cx="19" cy="29" r="1.5" fill="#ffffff"/>
+                    <circle cx="32" cy="16" r="1.5" fill="#ffffff"/>
+                </svg>
+                <div class="school-info">
+                    <h1>Hasan Aybaba Anadolu Lisesi</h1>
+                    <p>Şairlerimiz Karekod Projesi</p>
+                </div>
+            </a>
+            
+            <div class="nav-controls">
+                <nav class="tab-nav">
+                    <button class="tab-nav-btn active" onclick="switchTab('catalog')">Şair Kataloğu</button>
+                    <button class="tab-nav-btn" onclick="switchTab('admin')">Karekod Yazım Paneli</button>
+                </nav>
+                <button id="theme-toggle-btn" class="theme-toggle-btn" title="Temayı Değiştir" aria-label="Temayı Değiştir">
+                    <!-- Icon loaded by JS -->
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        
+        <!-- SEKME 1: ŞAİR KATALOĞU -->
+        <section id="tab-catalog" class="tab-panel active">
+            <!-- Hero Banner -->
+            <div class="hero-banner">
+                <div class="hero-content">
+                    <h2>Edebi Yolculuk: Şairlerimizin Dünyası</h2>
+                    <p>Edebiyatımızın yapı taşları olan 30 büyük şairimizin hayatı, edebi kişiliği ve şiirleri bu katalogda yer almaktadır. Sınıflardaki veya panolardaki karekodları taratarak doğrudan şairin PDF inceleme dosyasına ulaşabilirsiniz.</p>
+                </div>
+            </div>
+
+            <!-- Controls Panel -->
+            <div class="controls-panel">
+                <div class="search-wrapper">
+                    <span class="search-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    </span>
+                    <input type="text" id="search-input" class="search-input" placeholder="Şair adı veya dönem ara...">
+                </div>
+                
+                <div class="filter-container" id="filter-container">
+                    <span class="filter-title">Dönemler:</span>
+                    <button class="filter-chip active" data-period="all">Tümü</button>
+                    <!-- Periods populated dynamically by JS -->
+                </div>
+            </div>
+
+            <!-- Poet Cards Grid -->
+            <div class="poet-grid" id="poet-grid">
+                <!-- Poet Cards loaded dynamically -->
+                <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-muted);">
+                    Şairler yükleniyor...
+                </div>
+            </div>
+        </section>
+
+        <!-- SEKME 2: KAREKOD YAZIM PANELİ -->
+        <section id="tab-admin" class="tab-panel">
+            <div class="admin-settings-container">
+                
+                <!-- Sol Menü: Ayarlar -->
+                <aside class="settings-box">
+                    <h3>Yönlendirme Ayarları</h3>
+                    
+                    <div class="form-group">
+                        <label for="settings-domain">Dosya Sunucu Adresi (Base URL)</label>
+                        <input type="url" id="settings-domain" class="form-control" placeholder="Örn: https://hasanaybaba.meb.k12.tr/sairler/">
+                        <p style="font-size:0.7rem; color:var(--text-muted); margin-top:4px; line-height:1.3;">
+                            PDF'lerin ve bu kodların okul sunucusunda yüklü olduğu ana klasör adresini girin.
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="settings-target">Karekod Tarama Hedefi</label>
+                        <select id="settings-target" class="form-control">
+                            <option value="viewer">Dahili PDF Okuyucu Sayfası (Önerilen - Mobil Uyumlu)</option>
+                            <option value="direct">Doğrudan PDF Dosyası (Tarayıcıda Direkt PDF Açar)</option>
+                        </select>
+                        <p style="font-size:0.7rem; color:var(--text-muted); margin-top:4px; line-height:1.3;">
+                            <strong>Dahili PDF Okuyucu:</strong> Telefonda şık bir web sayfası açar ve içinde PDF'i gösterir.
+                            <br><strong>Doğrudan PDF:</strong> Direkt PDF dosya linkine yönlendirir (Bazı telefonlarda otomatik indirme yapar).
+                        </p>
+                    </div>
+
+                    <button class="poet-btn btn-block" onclick="saveSettings()">Ayarları Kaydet</button>
+
+                    <div style="margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1rem; font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
+                        <h4 style="margin-bottom:6px; font-weight:700; color:var(--text);">💡 Adım Adım Karekod Hazırlama:</h4>
+                        <ol style="padding-left:15px; display:flex; flex-direction:column; gap:6px;">
+                            <li>30 adet PDF dosyasını projedeki <strong>"pdfs"</strong> klasörüne yükleyin (Dosya isimlerinin sağdaki tablodaki isimlerle tam olarak uyuştuğundan emin olun).</li>
+                            <li>Sitenizin canlı adresini yukarıya kaydedin.</li>
+                            <li>Sağdaki tablodan yazdırmak istediğiniz şairleri seçip <strong>"Seçilenleri Toplu Yazdır"</strong> butonuna basın.</li>
+                            <li>Çıktıyı yapışkanlı A4 kağıdına alıp, keserek ilgili yerlere yapıştırın.</li>
+                        </ol>
+                    </div>
+                </aside>
+
+                <!-- Sağ Panel: Liste & Checkbox Seçimi -->
+                <div class="print-list-panel">
+                    <div class="print-list-header">
+                        <h3>Karekod Etiket Listesi</h3>
+                        <div class="print-actions">
+                            <button class="btn-secondary" onclick="toggleAllCheckboxes(true)">Tümünü Seç</button>
+                            <button class="btn-secondary" onclick="toggleAllCheckboxes(false)">Seçimi Kaldır</button>
+                            <button class="poet-btn" style="background-color:#16a34a;" onclick="printSelectedQrs()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg>
+                                Seçilenleri Toplu Yazdır
+                            </button>
+                        </div>
+                    </div>
+
+                    <div style="overflow-x:auto;">
+                        <table class="print-table">
+                            <thead>
+                                <tr>
+                                    <th class="checkbox-col">Seç</th>
+                                    <th>Şair Adı</th>
+                                    <th>Edebi Dönem</th>
+                                    <th>PDF Dosya Adı</th>
+                                </tr>
+                            </thead>
+                            <tbody id="print-table-tbody">
+                                <!-- Table rows generated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- PRINT GRID OUTPUT (Yalnızca Yazıcıda Görünür - A4 Şablonu) -->
+    <div id="print-grid-output">
+        <!-- Rendered badges loaded right before printing -->
+    </div>
+
+    <!-- MODAL 1: PDF OKUYUCU ÇERÇEVESİ -->
+    <div id="pdf-modal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 900px; height: 80vh;">
+            <div class="modal-header">
+                <h3 id="pdf-modal-title">Şair Dosyası İnceleme</h3>
+                <button class="modal-close" onclick="closePdfModal()">&times;</button>
+            </div>
+            <div class="modal-body" style="padding: 0; display:flex; flex-direction:column; overflow:hidden;">
+                <!-- PDF iframe viewer -->
+                <iframe id="pdf-iframe" class="pdf-viewer-frame" style="flex-grow:1; border:none; height:100%;" src=""></iframe>
+                <div id="pdf-fallback-notice" style="display:none; padding:2rem; text-align:center;">
+                    <p style="margin-bottom:1rem; font-weight:500;">Tarayıcınız PDF önizlemeyi desteklemiyor veya dosya bulunamadı.</p>
+                    <a id="pdf-direct-download" href="" class="poet-btn" target="_blank">PDF Dosyasını İndir / Yeni Sekmede Aç</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: HIZLI KAREKOD PENCERESİ -->
+    <div id="qr-modal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3>Şair Karekodu</h3>
+                <button class="modal-close" onclick="closeQrModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="qr-preview-box">
+                    <h4 id="qr-modal-name" style="font-family: var(--font-serif); font-size:1.3rem; margin-bottom:4px;"></h4>
+                    <p id="qr-modal-period" style="color:var(--text-muted); font-size:0.8rem; margin-bottom:1.5rem; text-transform:uppercase; font-weight:600; letter-spacing:0.05em;"></p>
+                    <div id="qr-canvas-holder" class="qr-canvas-holder">
+                        <!-- Canvas printed here -->
+                    </div>
+                    <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:1.5rem; line-height:1.4;">
+                        Bu şairin karekodunu basıp okul panolarında veya kitap kapağında sergileyebilirsiniz.
+                    </p>
+                    
+                    <div style="display:flex; gap:8px;">
+                        <button id="qr-modal-copy-btn" class="btn-secondary" style="flex:1;">Bağlantıyı Kopyala</button>
+                        <button id="qr-modal-print-btn" class="poet-btn" style="flex:1; justify-content:center;">Etiketi Yazdır</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2026 Hasan Aybaba Anadolu Lisesi. Tüm Hakları Saklıdır.</p>
+            <p style="font-size: 0.75rem;">Bu sistem edebiyat dersi ve kütüphane kulübü çalışmalarına katkı sunması amacıyla geliştirilmiştir.</p>
+            <ul class="footer-links">
+                <li><a href="https://hasanaybaba.meb.k12.tr/" target="_blank">Okul Resmi Sitesi</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- QR Code Library CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
+    
+    <!-- Core Application Logic -->
+    <script src="app.js"></script>
+</body>
+</html>

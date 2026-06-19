@@ -1,0 +1,114 @@
+[
+  {
+    "id": "alaeddin-ozdenoren",
+    "name": "Alaeddin Özdenören",
+    "period": "Yedi Güzel Adam",
+    "description": "Yedi Güzel Adam topluluğundan, şiirlerinde yalnızlık, hüzün ve ayrılık temalarını mistik bir derinlikle işleyen şair.",
+    "pdfFile": "alaeddin-ozdenoren.pdf"
+  },
+  {
+    "id": "cahit-sitki-taranci",
+    "name": "Cahit Sıtkı Tarancı",
+    "period": "Cumhuriyet Dönemi",
+    "description": "Otuz Beş Yaş ve Yalnızlık şiirleriyle tanınan, ölüm ve yaşama sevinci temalarını harmanlayan şair.",
+    "pdfFile": "cahit-sitki-taranci.pdf"
+  },
+  {
+    "id": "cahit-zarifoglu",
+    "name": "Cahit Zarifoğlu",
+    "period": "Yedi Güzel Adam / Mistik",
+    "description": "İçe dönük, kapalı, dini-mistik duyarlılıkla yüklü ve çocuksu bir saflık taşıyan Yedi Güzel Adam'ın özgün kalemi.",
+    "pdfFile": "cahit-zarifoglu.pdf"
+  },
+  {
+    "id": "cemil-meric",
+    "name": "Cemil Meriç",
+    "period": "Düşünce / Deneme",
+    "description": "Bu Ülke eseriyle tanınan, Doğu-Batı kültürlerini sentezleyen, deneme ve tercümeleriyle Türk düşünce hayatına yön veren yazar.",
+    "pdfFile": "cemil-meric.pdf"
+  },
+  {
+    "id": "erdem-bayazit",
+    "name": "Erdem Bayazıt",
+    "period": "Yedi Güzel Adam / Destansı",
+    "description": "Dini ve destansı duyarlılığı gür bir sesle şiirleştiren, doğa, inanç ve modern şehir çatışmasını ele alan şair.",
+    "pdfFile": "erdem-bayazit.pdf"
+  },
+  {
+    "id": "halide-edip-adivar",
+    "name": "Halide Edip Adıvar",
+    "period": "Milli Edebiyat",
+    "description": "Ateşten Gömlek, Vurun Kahpeye ve Sinekli Bakkal romanlarıyla Kurtuluş Savaşı'nı ve Türk kadınının mücadelesini anlatan yazar.",
+    "pdfFile": "halide-edip-adivar.pdf"
+  },
+  {
+    "id": "mehmet-akif-ersoy",
+    "name": "Mehmet Akif Ersoy",
+    "period": "Milli Edebiyat",
+    "description": "İstiklal Marşı'mızın şairi, Safahat eseriyle halkın değerlerini ve milli mücadele ruhunu manzum hikayelerle dile getiren büyük şair.",
+    "pdfFile": "mehmet-akif-ersoy.pdf"
+  },
+  {
+    "id": "mehmet-akif-inan",
+    "name": "Mehmet Akif İnan",
+    "period": "Yedi Güzel Adam / Sendikacı",
+    "description": "Mescid-i Aksa şiiriyle 'Kudüs Şairi' olarak anılan, yazar, sendikacı ve Yedi Güzel Adam topluluğu üyesi.",
+    "pdfFile": "mehmet-akif-inan.pdf"
+  },
+  {
+    "id": "nazim-hikmet",
+    "name": "Nazım Hikmet",
+    "period": "Toplumcu Gerçekçi",
+    "description": "Türk edebiyatında serbest nazımın öncüsü, memleket sevgisi ve evrensel temaları işleyen dünyaca ünlü şair ve yazar.",
+    "pdfFile": "nazim-hikmet.pdf"
+  },
+  {
+    "id": "necip-fazil-kisakurek",
+    "name": "Necip Fazıl Kısakürek",
+    "period": "Mistik / Cumhuriyet",
+    "description": "Kaldırımlar ve Çile şiirleriyle tanınan, Türk şiirinde mistik ve metafizik akımın en önemli temsilcilerinden biri.",
+    "pdfFile": "necip-fazil-kisakurek.pdf"
+  },
+  {
+    "id": "nuri-pakdil",
+    "name": "Nuri Pakdil",
+    "period": "Yedi Güzel Adam / Edebiyat",
+    "description": "Edebiyat dergisinin kurucusu, Kudüs ve özgürlük temalı çıkışlarıyla bilinen Yedi Güzel Adam'ın aksiyoncu 'Klas Duruş'lu yazarı.",
+    "pdfFile": "nuri-pakdil.pdf"
+  },
+  {
+    "id": "sezai-karakoc",
+    "name": "Sezai Karakoç",
+    "period": "Mistik / İkinci Yeni",
+    "description": "Mona Roza şiiriyle hafızalara kazınan, modern şiir biçimlerini İslam estetiği ve diriliş felsefesiyle yoğuran büyük düşünür.",
+    "pdfFile": "sezai-karakoc.pdf"
+  },
+  {
+    "id": "yahya-kemal-beyatli",
+    "name": "Yahya Kemal Beyatlı",
+    "period": "Milli Edebiyat / Neo-Klasik",
+    "description": "Divan şiiri estetiğini modern Türkçe ile buluşturan, İstanbul, tarih ve aşk şairi, aruz ölçüsünün son büyük ustası.",
+    "pdfFile": "yahya-kemal-beyatli.pdf"
+  },
+  {
+    "id": "yasar-kemal",
+    "name": "Yaşar Kemal",
+    "period": "Toplumcu Gerçekçi",
+    "description": "Çukurova'yı, halkın mücadelelerini ve İnce Memed destanını lirik ve destansı bir dille yazan dünyaca ünlü Türk romancısı.",
+    "pdfFile": "yasar-kemal.pdf"
+  },
+  {
+    "id": "yunus-emre",
+    "name": "Yunus Emre",
+    "period": "Tasavvuf Edebiyatı",
+    "description": "Türkçe tasavvuf şiirinin kurucusu, ilahi aşkı ve insan sevgisini arı bir Türkçe ile dile getiren büyük halk mutasavvıfı.",
+    "pdfFile": "yunus-emre.pdf"
+  },
+  {
+    "id": "omer-seyfettin",
+    "name": "Ömer Seyfettin",
+    "period": "Milli Edebiyat",
+    "description": "Modern Türk öykücülüğünün kurucusu, Yeni Lisan hareketiyle sade Türkçe akımının öncüsü olan lirik hikayeci.",
+    "pdfFile": "omer-seyfettin.pdf"
+  }
+]

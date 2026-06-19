@@ -1,0 +1,202 @@
+[
+  {
+    "id": "calikusu",
+    "title": "Çalıkuşu",
+    "author": "Reşat Nuri Güntekin",
+    "genre": "Roman",
+    "pageCount": 408,
+    "publisher": "İnkılâp Kitabevi",
+    "publishYear": 1922,
+    "rating": 4.8,
+    "coverColor": "#b45309",
+    "coverPattern": "diagonal",
+    "summary": "Çalıkuşu, İstanbullu köklü bir ailenin kızı olan Feride'nin, nişanlısı Kamran'ın ihaneti üzerine Anadolu'ya öğretmen olarak gitmesini ve orada yaşadığı zorlukları, olgunlaşma sürecini anlatır. Feride, gittiği her yerde güzelliği, çocuksu ruhu ve öğretmenlik aşkıyla iz bırakır. Anadolu'nun yoksul, savaştan yeni çıkmış gerçekliğini Feride'nin gözünden yansıtan eser, Türk edebiyatının en önemli klasiklerindendir.",
+    "analysis": "Eser, Cumhuriyet'in ilanından hemen önce yazılmış olup, idealist bir Türk kadınının Anadolu'da tek başına ayakta kalma mücadelesini ele alır. Dönemin toplumsal yapısı, bürokrasi engelleri ve hurafeler eleştirilirken, eğitim yoluyla aydınlanmanın önemi vurgulanmaktadır. Feride, pasif bir kadgın figürü yerine aktif, kararlı ve bağımsız bir kadın kahraman olarak Türk edebiyatında devrim niteliğindedir.",
+    "characters": [
+      {
+        "name": "Feride (Çalıkuşu)",
+        "role": "Romanın baş kahramanı. Yetim büyümüş, yaramazlığı ve neşesiyle tanınan, gururlu ve idealist öğretmen."
+      },
+      {
+        "name": "Kamran",
+        "role": "Feride'nin teyze oğlu ve nişanlısı. Feride'yi çok seven ama zayıf karakteri nedeniyle hata yapan genç."
+      },
+      {
+        "name": "Munise",
+        "role": "Feride'nin Anadolu'da evlat edindiği, öksüz ve sevgi dolu küçük kız çocuğu."
+      }
+    ],
+    "quotes": [
+      "İnsan birini sevince onun bütün kusurlarını unutur, hatta o kusurlar gözüne birer fazilet gibi görünür.",
+      "Ben Anadolu'ya gitmekle, yalnız insanlardan kaçmadım; kendimden de kaçtım.",
+      "Yüreğim acıyor Kamran... Ve bu acı hiçbir ilaca sığmıyor."
+    ],
+    "addedBy": "Hasan Aybaba A.L. Edebiyat Kulübü"
+  },
+  {
+    "id": "nutuk",
+    "title": "Nutuk",
+    "author": "Mustafa Kemal Atatürk",
+    "genre": "Tarih / Belgesel",
+    "pageCount": 544,
+    "publisher": "Türk Tarih Kurumu",
+    "publishYear": 1927,
+    "rating": 5.0,
+    "coverColor": "#1e3a8a",
+    "coverPattern": "stripes",
+    "summary": "Nutuk, Türkiye Cumhuriyeti'nin kurucusu Mustafa Kemal Atatürk'ün 1919-1927 yılları arasındaki Millî Mücadele ve inkılaplar dönemini bizzat kendi ağzından ve belgelere dayanarak anlattığı tarihi bir hitabedir. 19 Mayıs 1919'da Samsun'a çıkışla başlayan kitap, Gençliğe Hitabe ile son bulur.",
+    "analysis": "Nutuk, yalnızca tarihi bir vesika değil, aynı zamanda yeni kurulan devletin ideolojik temellerini ve hedeflerini açıklayan siyasi bir manifestodur. Atatürk, karşılaşılan iç ve dış engelleri nasıl aştıklarını anlatarak, Türk milletine bağımsızlığını koruma ve çağdaş uygarlık seviyesine ulaşma yolunda rehberlik eder.",
+    "characters": [
+      {
+        "name": "Mustafa Kemal Atatürk",
+        "role": "Kitabın anlatıcısı, Millî Mücadele'nin lideri ve başkomutanı."
+      },
+      {
+        "name": "Türk Milleti",
+        "role": "Atatürk'ün ifadesiyle, bağımsızlık mücadelesinin en büyük kahramanı ve sahibi."
+      }
+    ],
+    "quotes": [
+      "1919 yılı Mayısının 19'uncu günü Samsun'a çıktım. Vaziyet ve manzara-i umumiye şöyledir...",
+      "Efendiler, ey millet, iyi biliniz ki, Türkiye Cumhuriyeti şeyhler, dervişler, müritler, mensuplar memleketi olamaz.",
+      "Ey Türk gençliği! Birinci vazifen; Türk istiklalini, Türk cumhuriyetini, ilelebet muhafaza ve müdafaa etmektir."
+    ],
+    "addedBy": "Hasan Aybaba A.L. Tarih Kulübü"
+  },
+  {
+    "id": "kuyucakli-yusuf",
+    "title": "Kuyucaklı Yusuf",
+    "author": "Sabahattin Ali",
+    "genre": "Roman",
+    "pageCount": 224,
+    "publisher": "Yapı Kredi Yayınları",
+    "publishYear": 1937,
+    "rating": 4.7,
+    "coverColor": "#065f46",
+    "coverPattern": "dots",
+    "summary": "Kuyucaklı Yusuf, ailesi eşkıyalar tarafından katledilen ve kaymakam Selahattin Bey tarafından evlatlık alınan Yusuf'un öyküsüdür. Yusuf, sığındığı taşra kasabasındaki yozlaşmış düzene, eşrafın baskılarına ve adaletsizliklere karşı içindeki yabancılık ve isyanla mücadele eder. Kaymakamın kızı Muazzez ile yaşadığı hüzünlü aşk, trajik bir sonla noktalanır.",
+    "analysis": "Roman, Türk edebiyatında gerçekçi köy ve taşra hayatını ele alan ilk önemli yapıtlardandır. Taşra bürokrasisinin çürümesi, zengin ağaların kanun tanımazlığı ve sıradan insanların bu çarklar arasında ezilişi ustalıkla tasvir edilir. Yusuf, doğayı, saflığı ve bozulmamış insanı simgelerken; kasaba halkı yozlaşmış toplumsal yapıyı temsil eder.",
+    "characters": [
+      {
+        "name": "Yusuf",
+        "role": "Romanın baş kahramanı. Sessiz, gururlu, haksızlıklara boyun eğmeyen, topluma yabancılaşmış genç."
+      },
+      {
+        "name": "Muazzez",
+        "role": "Kaymakamın kızı. Yusuf'un çocukluk arkadaşı ve büyük aşkı; temiz ruhlu ama iradesiz genç kız."
+      },
+      {
+        "name": "Selahattin Bey",
+        "role": "Yusuf'u evlat edinen, iyi kalpli ancak içki ve kumar batağına saplanmış zayıf karakterli kaymakam."
+      }
+    ],
+    "quotes": [
+      "İçimizdeki şeytan pek de kurnazca olmayan bir kaçamak yolu... Bizim günahlarımız için ödeyeceğimiz bedeller var.",
+      "Hayat ancak bir kere yaşanır ve bunu en güzel şekilde değerlendirmek gerekir.",
+      "Dünyada ondan kalan tek şey, kalbindeki sönmek bilmeyen bu büyük ve sessiz öfkeydi."
+    ],
+    "addedBy": "Hasan Aybaba A.L. Edebiyat Kulübü"
+  },
+  {
+    "id": "suc-ve-ceza",
+    "title": "Suç ve Ceza",
+    "author": "Fyodor Dostoyevski",
+    "genre": "Psikolojik Roman",
+    "pageCount": 687,
+    "publisher": "İş Bankası Kültür Yayınları",
+    "publishYear": 1866,
+    "rating": 4.9,
+    "coverColor": "#7f1d1d",
+    "coverPattern": "diagonal",
+    "summary": "Yoksul bir hukuk öğrencisi olan Raskolnikov, 'üstün insanların' toplumsal fayda için suç işleme hakkına sahip olduğuna inanarak tefeci bir kadını öldürür. Ancak cinayetten sonra beklediği soğukkanlılığı koruyamaz ve vicdan azabı, şüphe ve korku içinde kıvranmaya başlar. Sonya ile tanışması, onu manevi bir arınma ve teslimiyet yoluna sokacaktır.",
+    "analysis": "Dostoyevski bu eserinde, insanın iç dünyasındaki iyilik ve kötülük savaşını, vicdanın sesini ve suçluluk psikolojisini derinlemesine analiz eder. Raskolnikov'un entelektüel kibri ile Sonya'nın inançlı ve fedakar alçakgönüllülüğü arasındaki zıtlık, insan ruhunun kurtuluş reçetesi olarak sunulur.",
+    "characters": [
+      {
+        "name": "Rodion Romanoviç Raskolnikov",
+        "role": "Suç işleyen ve bunun psikolojik bedelini ödeyen, çelişkilerle dolu eski hukuk öğrencisi."
+      },
+      {
+        "name": "Sonya Marmeladova",
+        "role": "Ailesi için kendini feda eden, Raskolnikov'a manevi destek olup onu itirafa yönlendiren genç kız."
+      },
+      {
+        "name": "Porfiri Petroviç",
+        "role": "Raskolnikov'un peşindeki, insan psikolojisini çok iyi analiz eden kurnaz sorgu yargıcı."
+      }
+    ],
+    "quotes": [
+      "Acı ve ıstırap, geniş bir zekaya ve duyarlı bir kalbe sahip olanlar için her zaman kaçınılmazdır.",
+      "İnsanın zihni ne kadar gelişmişse, çektiği acı o kadar büyüktür.",
+      "Bizim gibi insanlar için hayatta en zor şey, kendi kendimize yalan söylemeden yaşayabilmektir."
+    ],
+    "addedBy": "Hasan Aybaba A.L. Felsefe Kulübü"
+  },
+  {
+    "id": "sefiller",
+    "title": "Sefiller",
+    "author": "Victor Hugo",
+    "genre": "Tarihi / Klasik Roman",
+    "pageCount": 1724,
+    "publisher": "İletişim Yayınları",
+    "publishYear": 1862,
+    "rating": 4.9,
+    "coverColor": "#1e293b",
+    "coverPattern": "stripes",
+    "summary": "Ekmek çaldığı için kürek mahkumu olan Jean Valjean, hapisten çıktıktan sonra karşılaştığı piskoposun iyiliği sayesinde hayatını temize çekmeye karar verir. Kimliğini değiştirerek başarılı bir sanayici ve belediye başkanı olur, öksüz Cosette'i koruması altına alır. Ancak acımasız müfettiş Javert, geçmişini yakalamak için onun peşini asla bırakmayacaktır.",
+    "analysis": "Hugo'nun bu şaheseri; adaletsizlik, yoksulluk, aşk, fedakarlık ve kefaret temalarını Fransız Devrimi fonunda işler. Yazar, toplumsal yasaların insanları nasıl suça ittiğini ve sefalete mahkum ettiğini sorgularken, merhametin ve sevginin insan ruhunu dönüştürücü gücünü savunur.",
+    "characters": [
+      {
+        "name": "Jean Valjean",
+        "role": "Eski mahkum. İyiliğe adanmış bir yaşam sürerek vicdanını temizlemeye çalışan güçlü ve merhametli adam."
+      },
+      {
+        "name": "Müfettiş Javert",
+        "role": "Kanunları körü körüne uygulayan, esnekliği olmayan, Jean Valjean'ı yakalamayı saplantı haline getirmiş polis."
+      },
+      {
+        "name": "Cosette",
+        "role": "Jean Valjean'ın evlat edindiği, zor bir çocukluğun ardından sevgiyle büyüyen genç kız."
+      }
+    ],
+    "quotes": [
+      "Sevmek, başka bir insanın mutluluğunu kendi mutluluğumuz haline getirmektir.",
+      "Hiçbir ordu, zamanı gelmiş bir fikir kadar güçlü değildir.",
+      "Karanlıkta kalmış olsak bile, içimizdeki ışığı sönmeye bırakmamalıyız."
+    ],
+    "addedBy": "Hasan Aybaba A.L. Edebiyat Kulübü"
+  },
+  {
+    "id": "simyaci",
+    "title": "Simyacı",
+    "author": "Paulo Coelho",
+    "genre": "Felsefi / Fabl",
+    "pageCount": 184,
+    "publisher": "Can Yayınları",
+    "publishYear": 1988,
+    "rating": 4.6,
+    "coverColor": "#4f46e5",
+    "coverPattern": "dots",
+    "summary": "İspanyol çoban Santiago, gördüğü bir rüyanın peşinden giderek Mısır Piramitleri'ndeki hazinesini aramaya koyulur. Endülüs'ten başlayıp Sahra Çölü'ne uzanan bu yolculukta, evrenin dilini öğrenir, aşkı tanır ve gerçek hazinenin yolun sonunda değil, yolculuğun kendisinde ve kendi içinde olduğunu keşfeder.",
+    "analysis": "Eser, insanın kendi hayallerini (Kişisel Menkıbe) gerçekleştirmesi üzerine kurulmuş felsefi bir masaldır. Coelho, hayallerinin peşinden gidenlerin evren tarafından destekleneceğini, korkuların en büyük engel olduğunu ve kalbimizin sesini dinlememiz gerektiğini mistik bir dille aktarır.",
+    "characters": [
+      {
+        "name": "Santiago",
+        "role": "Kendi hazinesini aramak için çobanlığı ve konforlu hayatını bırakan meraklı ve kararlı Endülüslü genç."
+      },
+      {
+        "name": "Simyacı",
+        "role": "Santiago'ya çölde yoldaşlık eden, ona doğanın dilini ve kendisini dinlemeyi öğreten bilge rehber."
+      },
+      {
+        "name": "Fatima",
+        "role": "Çöldeki bir vahada yaşayan, Santiago'nun kalbini kazanan ve onun hedefine gitmesini destekleyen çöl kızı."
+      }
+    ],
+    "quotes": [
+      "Bir şeyi gerçekten istediğin zaman, arzunu gerçekleştirmeni sağlamak için bütün evren işbirliği yapar.",
+      "Korku, acının kendisinden daha çok acı verir.",
+      "Gözler ruhun gücünü gösterir."
+    ],
+    "addedBy": "Hasan Aybaba A.L. Rehberlik Kulübü"
+  }
+]

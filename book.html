@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitap Detayı | Karekod Kütüphane</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header / Nav -->
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo-section">
+                <!-- SVG MEB Logo Representation -->
+                <svg class="meb-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="48" fill="#c2410c" />
+                    <circle cx="50" cy="50" r="44" fill="#ffffff" />
+                    <circle cx="50" cy="50" r="41" fill="#b91c1c" />
+                    <path d="M25 65C35 65 45 68 50 72C55 68 65 65 75 65V35C65 35 55 38 50 42C45 38 35 35 25 35V65Z" fill="#ffffff" />
+                    <path d="M50 42V72" stroke="#b91c1c" stroke-width="2" />
+                    <path d="M50 20C47 25 45 28 47 31C49 34 51 34 53 31C55 28 53 25 50 20Z" fill="#eab308" />
+                    <path d="M47 31C48 32 49 33 50 33C51 33 52 32 53 31L50 38L47 31Z" fill="#ffffff" />
+                    <circle cx="50" cy="11" r="1.5" fill="#ffffff"/>
+                    <circle cx="68" cy="16" r="1.5" fill="#ffffff"/>
+                    <circle cx="81" cy="29" r="1.5" fill="#ffffff"/>
+                    <circle cx="87" cy="46" r="1.5" fill="#ffffff"/>
+                    <circle cx="84" cy="64" r="1.5" fill="#ffffff"/>
+                    <circle cx="73" cy="78" r="1.5" fill="#ffffff"/>
+                    <circle cx="58" cy="86" r="1.5" fill="#ffffff"/>
+                    <circle cx="42" cy="86" r="1.5" fill="#ffffff"/>
+                    <circle cx="27" cy="78" r="1.5" fill="#ffffff"/>
+                    <circle cx="16" cy="64" r="1.5" fill="#ffffff"/>
+                    <circle cx="13" cy="46" r="1.5" fill="#ffffff"/>
+                    <circle cx="19" cy="29" r="1.5" fill="#ffffff"/>
+                    <circle cx="32" cy="16" r="1.5" fill="#ffffff"/>
+                </svg>
+                <div class="school-info">
+                    <h1>Hasan Aybaba Anadolu Lisesi</h1>
+                    <p>Karekod Kütüphane Sistemi</p>
+                </div>
+            </a>
+            <div class="nav-controls">
+                <nav>
+                    <ul class="nav-links">
+                        <li><a href="index.html">Kütüphane</a></li>
+                        <li><a href="admin.html">Yönetim Paneli</a></li>
+                    </ul>
+                </nav>
+                <button id="theme-toggle-btn" class="theme-toggle-btn" title="Temayı Değiştir" aria-label="Temayı Değiştir">
+                    <!-- Icon loaded by JS -->
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Back Button -->
+        <div style="margin-bottom: 1.5rem;">
+            <a href="index.html" class="btn-secondary" style="display: inline-flex; width: auto; padding: 8px 16px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                Kütüphaneye Geri Dön
+            </a>
+        </div>
+
+        <!-- Book Detail Grid Layout -->
+        <div id="book-detail-container" class="book-detail-wrapper">
+            <!-- Details loaded by JS -->
+            <div style="grid-column: 1/-1; text-align: center; padding: 4rem; color: var(--text-muted);">
+                Kitap detayları yükleniyor...
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2026 Hasan Aybaba Anadolu Lisesi Kütüphanesi. Tüm Hakları Saklıdır.</p>
+            <p style="font-size: 0.75rem;">Bu proje okulumuz kütüphanesini dijitalleştirmek ve okuma alışkanlığını teşvik etmek amacıyla geliştirilmiştir.</p>
+            <ul class="footer-links">
+                <li><a href="https://hasanaybaba.meb.k12.tr/" target="_blank">Okul Web Sitesi</a></li>
+                <li><a href="admin.html">Kütüphane Yönetimi</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- QR Code Library via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
+    <!-- Common App Script -->
+    <script src="app.js"></script>
+
+    <!-- Page Logic Script -->
+    <script>
+        let currentBook = null;
+        let bookComments = [];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // URL Parametresinden Kitap Kimliğini (id) Al
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookId = urlParams.get('id');
+
+            if (!bookId) {
+                renderError("Kitap kimliği belirtilmedi.");
+                return;
+            }
+
+            // Kitapları Çek ve Eşleşeni Bul
+            const books = await fetchBooks();
+            currentBook = books.find(b => b.id === bookId);
+
+            if (!currentBook) {
+                renderError("Aradığınız kitap kütüphane veritabanında bulunamadı.");
+                return;
+            }
+
+            // Sayfa Başlığını Güncelle
+            document.title = `${currentBook.title} - ${currentBook.author} | Karekod Kütüphane`;
+
+            // Kitap Detaylarını Yükle
+            renderBookDetails();
+            
+            // Yorumları Yükle
+            loadComments();
+
+            // Karekod Üret
+            generateBookQrCode();
+        });
+
+        // Hata Arayüzü Yazma
+        function renderError(message) {
+            const container = document.getElementById('book-detail-container');
+            container.className = ""; // Grid stilini kaldır
+            container.innerHTML = `
+                <div style="text-align: center; padding: 4rem 1rem; max-width: 600px; margin: 0 auto; background-color: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:1.5rem;"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+                    <h2 style="font-family: var(--font-serif); font-size:1.8rem; margin-bottom:1rem;">Hata Oluştu</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">${message}</p>
+                    <a href="index.html" class="btn-primary" style="display:inline-flex; text-decoration:none; justify-content:center;">Ana Sayfaya Dön</a>
+                </div>
+            `;
+        }
+
+        // Kitap Arayüzünü Oluşturma
+        function renderBookDetails() {
+            const container = document.getElementById('book-detail-container');
+            container.innerHTML = `
+                <!-- Sol Sütun (Kapak, Bilgiler, Karekod) -->
+                <aside class="detail-sidebar">
+                    <div class="detail-cover-card">
+                        <div class="detail-cover-wrapper">
+                            ${generateCoverHTML(currentBook)}
+                        </div>
+                    </div>
+                    
+                    <!-- Künye Bilgileri -->
+                    <div class="metadata-box">
+                        <h4 class="metadata-title">Kitap Künyesi</h4>
+                        <div class="metadata-item">
+                            <span>Yazar</span>
+                            <span>${currentBook.author}</span>
+                        </div>
+                        <div class="metadata-item">
+                            <span>Tür</span>
+                            <span>${currentBook.genre}</span>
+                        </div>
+                        <div class="metadata-item">
+                            <span>Sayfa Sayısı</span>
+                            <span>${currentBook.pageCount || 'Bilinmiyor'}</span>
+                        </div>
+                        <div class="metadata-item">
+                            <span>Yayınevi</span>
+                            <span>${currentBook.publisher || 'Bilinmiyor'}</span>
+                        </div>
+                        <div class="metadata-item">
+                            <span>Yayın Yılı</span>
+                            <span>${currentBook.publishYear || 'Bilinmiyor'}</span>
+                        </div>
+                        <div class="metadata-item">
+                            <span>Ekleyen</span>
+                            <span style="font-size:0.8rem; text-align:right;">${currentBook.addedBy || 'Kütüphane Kulübü'}</span>
+                        </div>
+                    </div>
+
+                    <!-- Karekod Kutusu -->
+                    <div class="sidebar-qr-box">
+                        <h4 class="metadata-title" style="margin-bottom:15px;">Bu Sayfanın Karekodu</h4>
+                        <div id="detail-qr-canvas-wrapper" class="qr-code-placeholder">
+                            <canvas id="detail-qr-canvas"></canvas>
+                        </div>
+                        <p>Karekod etiketini basarak fiziksel kitaba yapıştırabilir ve okuyucuları bu sayfaya yönlendirebilirsiniz.</p>
+                        <button class="btn-secondary" onclick="printSingleQr()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg>
+                            Karekodu Yazdır
+                        </button>
+                    </div>
+                </aside>
+
+                <!-- Sağ Sütun (Özet, Analiz, Alıntılar, Yorumlar) -->
+                <div class="detail-main">
+                    <div class="detail-header">
+                        <span class="detail-genre">${currentBook.genre}</span>
+                        <h2 class="detail-title">${currentBook.title}</h2>
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                            <div class="detail-author">${currentBook.author}</div>
+                            <span class="book-rating" style="font-size:1.1rem; background-color:var(--border); padding:6px 12px; border-radius:30px;">
+                                <svg class="star-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle; margin-top:-3px;"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                <span style="margin-left:4px;">${currentBook.rating.toFixed(1)} / 5.0</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Sekme Menüsü Navigasyonu -->
+                    <div class="tabs-navigation">
+                        <button class="tab-btn active" onclick="switchTab('tab-ozet', this)">Kitap Özeti</button>
+                        <button class="tab-btn" onclick="switchTab('tab-analiz', this)">Karakterler & Analiz</button>
+                        <button class="tab-btn" onclick="switchTab('tab-alintilar', this)">Önemli Alıntılar</button>
+                    </div>
+
+                    <!-- Sekme 1: Özet -->
+                    <div id="tab-ozet" class="tab-content active">
+                        <div class="rich-text">
+                            <p>${currentBook.summary || 'Bu kitap için henüz bir özet girilmemiş.'}</p>
+                        </div>
+                    </div>
+
+                    <!-- Sekme 2: Analiz -->
+                    <div id="tab-analiz" class="tab-content">
+                        <div class="rich-text" style="margin-bottom:1.5rem;">
+                            <h4 style="font-family:var(--font-serif); font-size:1.3rem; margin-bottom:10px; color:var(--primary);">Tematik Analiz</h4>
+                            <p>${currentBook.analysis || 'Bu kitap için henüz analiz girilmemiş.'}</p>
+                        </div>
+                        
+                        <h4 style="font-family:var(--font-serif); font-size:1.3rem; margin-bottom:15px; color:var(--primary);">Başlıca Karakterler</h4>
+                        <div class="character-list">
+                            ${currentBook.characters && currentBook.characters.length > 0 
+                                ? currentBook.characters.map(char => `
+                                    <div class="character-item">
+                                        <div class="character-name">${char.name}</div>
+                                        <div class="character-role">${char.role}</div>
+                                    </div>
+                                  `).join('')
+                                : '<p style="color:var(--text-muted); font-style:italic;">Karakter bilgisi girilmemiş.</p>'
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Sekme 3: Alıntılar -->
+                    <div id="tab-alintilar" class="tab-content">
+                        <div class="quotes-grid">
+                            ${currentBook.quotes && currentBook.quotes.length > 0 
+                                ? currentBook.quotes.map(quote => `
+                                    <div class="quote-card">
+                                        <p>${quote}</p>
+                                    </div>
+                                  `).join('')
+                                : '<p style="color:var(--text-muted); font-style:italic;">Alıntı girilmemiş.</p>'
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Yorumlar Bölümü -->
+                    <section class="comments-section">
+                        <h3 style="font-family:var(--font-serif); font-size:1.5rem; margin-bottom:0.5rem; color:var(--primary);">Okuyucu Değerlendirmeleri</h3>
+                        <p style="font-size:0.85rem; color:var(--text-muted);">Okulumuz öğretmen ve öğrencilerinin bu kitap hakkındaki yorumları.</p>
+                        
+                        <!-- Yorum Ekleme Formu -->
+                        <form id="comment-form" class="comment-form" onsubmit="handleCommentSubmit(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="comment-name">Adınız Soyadınız / Sınıfınız</label>
+                                    <input type="text" id="comment-name" class="form-control" placeholder="Örn: Ahmet Yılmaz (10-A) veya Ayşe Kaya (Edebiyat Öğretmeni)" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="comment-role">Rolünüz</label>
+                                    <select id="comment-role" class="form-control">
+                                        <option value="Öğrenci">Öğrenci</option>
+                                        <option value="Öğretmen">Öğretmen</option>
+                                        <option value="Veli / Ziyaretçi">Veli / Ziyaretçi</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group form-group-full">
+                                <label for="comment-text">Kitap Hakkındaki Yorumunuz / İncelemeniz</label>
+                                <textarea id="comment-text" class="form-control" placeholder="Kitap size ne hissettirdi? Karakterler veya olay örgüsü hakkında ne düşünüyorsunuz?" required></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary" style="align-self: flex-end;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                                Yorum Gönder
+                            </button>
+                        </form>
+
+                        <!-- Yorum Listesi -->
+                        <div id="comments-list" class="comments-list">
+                            <!-- Comments loaded by JS -->
+                        </div>
+                    </section>
+                </div>
+            `;
+        }
+
+        // Sekme Değiştirme Fonksiyonu
+        function switchTab(tabId, btnElement) {
+            // Tüm sekmeleri ve düğmeleri deaktif et
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+
+            // İlgili sekmeyi ve düğmeyi aktif et
+            document.getElementById(tabId).classList.add('active');
+            btnElement.classList.add('active');
+        }
+
+        // Karekod Üretme
+        function generateBookQrCode() {
+            if (!currentBook) return;
+            
+            // Karekod linkini oluştur
+            const detailUrl = getBookDetailUrl(currentBook.id);
+            const canvas = document.getElementById('detail-qr-canvas');
+
+            QRCode.toCanvas(canvas, detailUrl, {
+                width: 170,
+                margin: 1,
+                color: {
+                    dark: '#1e3a8a', // Okul rengi
+                    light: '#ffffff'
+                }
+            }, (error) => {
+                if (error) console.error("Detay karekod çizim hatası:", error);
+            });
+        }
+
+        // Tek bir Karekodu Yazdırma Penceresi (Sadece bu kitap etiketini yazdır)
+        function printSingleQr() {
+            // Yazdırma işlemi için geçici bir stil penceresi veya doğrudan print moduna yönlendiren pencere aç
+            const printWindow = window.open('', '_blank');
+            const detailUrl = getBookDetailUrl(currentBook.id);
+            
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>${currentBook.title} - Karekod Etiket</title>
+                    <style>
+                        body {
+                            font-family: 'Inter', system-ui, sans-serif;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            height: 100vh;
+                            margin: 0;
+                            background-color: #ffffff;
+                        }
+                        .label-box {
+                            border: 2px dashed #000000;
+                            padding: 20px;
+                            width: 320px;
+                            display: flex;
+                            align-items: center;
+                            gap: 15px;
+                            border-radius: 8px;
+                        }
+                        .info {
+                            flex-grow: 1;
+                        }
+                        .school {
+                            font-size: 10px;
+                            font-weight: 700;
+                            text-transform: uppercase;
+                            color: #555555;
+                            border-bottom: 1px solid #000;
+                            padding-bottom: 3px;
+                            margin-bottom: 5px;
+                        }
+                        .title {
+                            font-family: Georgia, serif;
+                            font-size: 16px;
+                            font-weight: bold;
+                            color: #000;
+                        }
+                        .author {
+                            font-size: 12px;
+                            font-style: italic;
+                            color: #333333;
+                            margin-top: 2px;
+                        }
+                        .qr-canvas-wrapper {
+                            width: 100px;
+                            height: 100px;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="label-box">
+                        <div class="info">
+                            <div class="school">Hasan Aybaba Anadolu Lisesi</div>
+                            <div class="title">${currentBook.title}</div>
+                            <div class="author">${currentBook.author}</div>
+                        </div>
+                        <div class="qr-canvas-wrapper">
+                            <canvas id="print-canvas"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- QR Code Lib -->
+                    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"><\/script>
+                    <script>
+                        window.onload = function() {
+                            const canvas = document.getElementById('print-canvas');
+                            QRCode.toCanvas(canvas, "${detailUrl}", {
+                                width: 100,
+                                margin: 1
+                            }, function() {
+                                window.print();
+                                setTimeout(() => window.close(), 500);
+                            });
+                        }
+                    <\/script>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+        }
+
+        // 6. Yorum İşlemleri
+        const COMMENT_STORAGE_PREFIX = 'qr_library_comments_';
+
+        function loadComments() {
+            const list = document.getElementById('comments-list');
+            list.innerHTML = '';
+            
+            // LocalStorage'dan ilgili kitaba ait yorumları oku
+            const stored = localStorage.getItem(COMMENT_STORAGE_PREFIX + currentBook.id);
+            if (stored) {
+                try {
+                    bookComments = JSON.parse(stored);
+                } catch (e) {
+                    bookComments = [];
+                }
+            } else {
+                // Varsayılan yorumlar (Her kitap için 1 örnek okul yorumu)
+                bookComments = [
+                    {
+                        name: "Zeynep Aslan (Edebiyat Kulübü Başkanı)",
+                        role: "Öğrenci",
+                        text: `Bu kitabı kütüphane kulübümüzün haftalık kitap analiz toplantısında değerlendirdik. Karakter tahlilleri ve anlatım dili harika. Her arkadaşımızın mutlaka okumasını tavsiye ediyoruz.`,
+                        date: "12.05.2026"
+                    }
+                ];
+                localStorage.setItem(COMMENT_STORAGE_PREFIX + currentBook.id, JSON.stringify(bookComments));
+            }
+
+            if (bookComments.length === 0) {
+                list.innerHTML = '<p style="color:var(--text-muted); font-style:italic; padding:1rem 0;">Henüz yorum yapılmamış. İlk yorumu siz yapın!</p>';
+                return;
+            }
+
+            bookComments.forEach(comment => {
+                const card = document.createElement('div');
+                card.className = 'comment-card';
+                card.innerHTML = `
+                    <div class="comment-header">
+                        <span class="comment-author">${comment.name} (${comment.role})</span>
+                        <span>${comment.date}</span>
+                    </div>
+                    <div class="comment-body">
+                        <p>${comment.text}</p>
+                    </div>
+                `;
+                list.appendChild(card);
+            });
+        }
+
+        function handleCommentSubmit(event) {
+            event.preventDefault();
+            
+            const nameInput = document.getElementById('comment-name');
+            const roleSelect = document.getElementById('comment-role');
+            const textInput = document.getElementById('comment-text');
+
+            const today = new Date();
+            const dateStr = `${String(today.getDate()).padStart(2, '0')}.${String(today.getMonth()+1).padStart(2, '0')}.${today.getFullYear()}`;
+
+            const newComment = {
+                name: nameInput.value.trim(),
+                role: roleSelect.value,
+                text: textInput.value.trim(),
+                date: dateStr
+            };
+
+            bookComments.unshift(newComment); // Yeni yorumu en başa ekle
+            localStorage.setItem(COMMENT_STORAGE_PREFIX + currentBook.id, JSON.stringify(bookComments));
+
+            // Formu Temizle
+            nameInput.value = '';
+            textInput.value = '';
+
+            // Yorumları tekrar yükle
+            loadComments();
+            showToast("Yorumunuz başarıyla eklendi!");
+        }
+    </script>
+</body>
+</html>
