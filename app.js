@@ -43,7 +43,7 @@ function getSettings() {
     const defaultUrl = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '') + '/';
     const defaults = {
         baseUrl: defaultUrl,
-        target: 'viewer' // 'viewer' (dahili okuyucu) veya 'direct' (direkt pdf linki)
+        target: 'direct' // Varsayılan olarak doğrudan PDF linkini ('direct') seçtik, mobilde en sorunsuz çalışan yöntemdir.
     };
     
     const saved = localStorage.getItem(SETTINGS_KEY);
@@ -88,10 +88,10 @@ function saveSettings() {
 function getRedirectionUrl(poet) {
     const settings = getSettings();
     if (settings.target === 'direct') {
-        // Doğrudan PDF dosyasına yönlendirme yap
+        // Doğrudan PDF dosyasına yönlendirme yap (YENİ PENCEREDE DOSYA AÇIMI İÇİN EN UYGUNDUR)
         return `${settings.baseUrl}pdfs/${poet.pdfFile}`;
     } else {
-        // İndis sayfası üzerinden dahili görüntüleyici parametreli linke yönlendir
+        // İndis sayfası üzerinden parametreli linke yönlendir
         return `${settings.baseUrl}index.html?poet=${poet.id}`;
     }
 }
@@ -178,10 +178,11 @@ function renderCatalog() {
                     <button class="poet-btn-qr" title="Karekodu Gör" onclick="openQrModal('${poet.id}')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="10" height="10" x="3" y="3" rx="2"/><rect width="10" height="10" x="11" y="11" rx="2"/><path d="M3 17h6"/><path d="M17 3h6"/><path d="M17 8h6"/><path d="M17 13h1"/><path d="M22 13h1"/><path d="M13 17h1"/><path d="M13 22h1"/><path d="M8 21H3"/><path d="M8 17H7"/><path d="M7 22H3"/><path d="M17 17h6v5h-6z"/></svg>
                     </button>
-                    <button class="poet-btn" onclick="openPdfModal('${poet.id}')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    <!-- YENİ SEKMEDE PDF AÇMAK İÇİN DOĞRUDAN ANCHOR BAĞLANTISI KULLANILDI -->
+                    <a href="pdfs/${poet.pdfFile}" target="_blank" class="poet-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                         PDF'i Oku
-                    </button>
+                    </a>
                 </div>
             </div>
         `;
@@ -189,40 +190,7 @@ function renderCatalog() {
     });
 }
 
-// 8. Dahili PDF Okuyucu Modalını Açma
-function openPdfModal(poetId) {
-    const poet = allPoets.find(p => p.id === poetId);
-    if (!poet) return;
-    
-    document.getElementById('pdf-modal-title').textContent = `${poet.name} - Tanıtım Dosyası`;
-    
-    // PDF Yolu (Yerel pdfs klasöründen çeker)
-    const pdfPath = `pdfs/${poet.pdfFile}`;
-    const iframe = document.getElementById('pdf-iframe');
-    const fallback = document.getElementById('pdf-fallback-notice');
-    const directLink = document.getElementById('pdf-direct-download');
-    
-    iframe.src = pdfPath;
-    directLink.href = pdfPath;
-    
-    // iframe yükleme durumunu kontrol et
-    iframe.style.display = 'block';
-    fallback.style.display = 'none';
-    
-    iframe.onerror = function() {
-        iframe.style.display = 'none';
-        fallback.style.display = 'block';
-    };
-    
-    document.getElementById('pdf-modal').classList.add('active');
-}
-
-function closePdfModal() {
-    document.getElementById('pdf-modal').classList.remove('active');
-    document.getElementById('pdf-iframe').src = '';
-}
-
-// 9. Tekli Karekod Önizleme Modalı
+// 8. Tekli Karekod Önizleme Modalı
 function openQrModal(poetId) {
     const poet = allPoets.find(p => p.id === poetId);
     if (!poet) return;
@@ -354,7 +322,7 @@ function printSingleQrLabel(poet) {
     printWindow.document.close();
 }
 
-// 10. Admin Listesi Tablosunu Doldurma
+// 9. Admin Listesi Tablosunu Doldurma
 function renderAdminTable() {
     const tbody = document.getElementById('print-table-tbody');
     if (!tbody) return;
@@ -379,7 +347,7 @@ function toggleAllCheckboxes(checkedState) {
     document.querySelectorAll('.poet-print-checkbox').forEach(cb => cb.checked = checkedState);
 }
 
-// 11. Toplu A4 Karekod Çıktısı Alma Motoru
+// 10. Toplu A4 Karekod Çıktısı Alma Motoru
 async function printSelectedQrs() {
     const checkedBoxes = document.querySelectorAll('.poet-print-checkbox:checked');
     const selectedIds = Array.from(checkedBoxes).map(cb => cb.getAttribute('data-id'));
@@ -432,7 +400,7 @@ async function printSelectedQrs() {
     window.print();
 }
 
-// 12. Bildirim Sistemi
+// 11. Bildirim Sistemi
 function showToast(msg, type = 'success') {
     let t = document.getElementById('app-toast');
     if (!t) {
@@ -447,22 +415,6 @@ function showToast(msg, type = 'success') {
     `;
     t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 2500);
-}
-
-// 13. URL Tarama Algılayıcı (Otomatik PDF Okuyucu Tetikleme)
-function checkUrlParameters() {
-    const params = new URLSearchParams(window.location.search);
-    const poetParam = params.get('poet');
-    
-    if (poetParam) {
-        // Şair listede varsa PDF modalını doğrudan aç
-        setTimeout(() => {
-            const poet = allPoets.find(p => p.id === poetParam);
-            if (poet) {
-                openPdfModal(poet.id);
-            }
-        }, 300);
-    }
 }
 
 // DOM Yüklendiğinde
@@ -483,9 +435,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderPeriodFilters();
     renderCatalog();
     
-    // URL parametresini kontrol et
-    checkUrlParameters();
-    
     // Arama ve filtre dinleyicileri
     document.getElementById('search-input').addEventListener('input', (e) => {
         searchQuery = e.target.value.toLowerCase().trim();
@@ -504,11 +453,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Modalların dışına tıklayınca kapanma desteği
 window.onclick = function(event) {
-    const pdfModal = document.getElementById('pdf-modal');
     const qrModal = document.getElementById('qr-modal');
-    if (event.target === pdfModal) {
-        closePdfModal();
-    }
     if (event.target === qrModal) {
         closeQrModal();
     }

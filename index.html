@@ -63,7 +63,7 @@
             <div class="hero-banner">
                 <div class="hero-content">
                     <h2>Edebi Yolculuk: Şairlerimizin Dünyası</h2>
-                    <p>Edebiyatımızın yapı taşları olan 30 büyük şairimizin hayatı, edebi kişiliği ve şiirleri bu katalogda yer almaktadır. Sınıflardaki veya panolardaki karekodları taratarak doğrudan şairin PDF inceleme dosyasına ulaşabilirsiniz.</p>
+                    <p>Edebiyatımızın yapı taşları olan 16 büyük şairimizin hayatı, edebi kişiliği ve şiirleri bu katalogda yer almaktadır. Sınıflardaki veya panolardaki karekodları taratarak doğrudan şairin PDF inceleme dosyasına ulaşabilirsiniz.</p>
                 </div>
             </div>
 
@@ -104,19 +104,19 @@
                         <label for="settings-domain">Dosya Sunucu Adresi (Base URL)</label>
                         <input type="url" id="settings-domain" class="form-control" placeholder="Örn: https://hasanaybaba.meb.k12.tr/sairler/">
                         <p style="font-size:0.7rem; color:var(--text-muted); margin-top:4px; line-height:1.3;">
-                            PDF'lerin ve bu kodların okul sunucusunda yüklü olduğu ana klasör adresini girin.
+                            PDF'lerin ve bu kodların okul sunucusunda veya GitHub'da yüklü olduğu ana klasör adresini girin.
                         </p>
                     </div>
 
                     <div class="form-group">
                         <label for="settings-target">Karekod Tarama Hedefi</label>
                         <select id="settings-target" class="form-control">
-                            <option value="viewer">Dahili PDF Okuyucu Sayfası (Önerilen - Mobil Uyumlu)</option>
-                            <option value="direct">Doğrudan PDF Dosyası (Tarayıcıda Direkt PDF Açar)</option>
+                            <option value="direct">Doğrudan PDF Dosyası (Önerilen - Güvenli Mobil Erişim)</option>
+                            <option value="viewer">Dahili Web Sayfası (Katalog Arayüzü Üzerinden Gösterim)</option>
                         </select>
                         <p style="font-size:0.7rem; color:var(--text-muted); margin-top:4px; line-height:1.3;">
-                            <strong>Dahili PDF Okuyucu:</strong> Telefonda şık bir web sayfası açar ve içinde PDF'i gösterir.
-                            <br><strong>Doğrudan PDF:</strong> Direkt PDF dosya linkine yönlendirir (Bazı telefonlarda otomatik indirme yapar).
+                            <strong>Doğrudan PDF:</strong> Telefon taratıldığında doğrudan PDF dosyasını tam sayfa açar. Mobil cihazlarda en sorunsuz çalışan yöntemdir.
+                            <br><strong>Dahili Web Sayfası:</strong> Karekod taranınca ana listeyi açar (Viewer parametreli).
                         </p>
                     </div>
 
@@ -125,7 +125,7 @@
                     <div style="margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1rem; font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
                         <h4 style="margin-bottom:6px; font-weight:700; color:var(--text);">💡 Adım Adım Karekod Hazırlama:</h4>
                         <ol style="padding-left:15px; display:flex; flex-direction:column; gap:6px;">
-                            <li>30 adet PDF dosyasını projedeki <strong>"pdfs"</strong> klasörüne yükleyin (Dosya isimlerinin sağdaki tablodaki isimlerle tam olarak uyuştuğundan emin olun).</li>
+                            <li>PDF dosyalarınızı projedeki <strong>"pdfs"</strong> klasörüne yükleyin (Yüklediğiniz 16 PDF dosyasının hazır olduğunu doğrulayın).</li>
                             <li>Sitenizin canlı adresini yukarıya kaydedin.</li>
                             <li>Sağdaki tablodan yazdırmak istediğiniz şairleri seçip <strong>"Seçilenleri Toplu Yazdır"</strong> butonuna basın.</li>
                             <li>Çıktıyı yapışkanlı A4 kağıdına alıp, keserek ilgili yerlere yapıştırın.</li>
@@ -173,25 +173,7 @@
         <!-- Rendered badges loaded right before printing -->
     </div>
 
-    <!-- MODAL 1: PDF OKUYUCU ÇERÇEVESİ -->
-    <div id="pdf-modal" class="modal-overlay">
-        <div class="modal-box" style="max-width: 900px; height: 80vh;">
-            <div class="modal-header">
-                <h3 id="pdf-modal-title">Şair Dosyası İnceleme</h3>
-                <button class="modal-close" onclick="closePdfModal()">&times;</button>
-            </div>
-            <div class="modal-body" style="padding: 0; display:flex; flex-direction:column; overflow:hidden;">
-                <!-- PDF iframe viewer -->
-                <iframe id="pdf-iframe" class="pdf-viewer-frame" style="flex-grow:1; border:none; height:100%;" src=""></iframe>
-                <div id="pdf-fallback-notice" style="display:none; padding:2rem; text-align:center;">
-                    <p style="margin-bottom:1rem; font-weight:500;">Tarayıcınız PDF önizlemeyi desteklemiyor veya dosya bulunamadı.</p>
-                    <a id="pdf-direct-download" href="" class="poet-btn" target="_blank">PDF Dosyasını İndir / Yeni Sekmede Aç</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL 2: HIZLI KAREKOD PENCERESİ -->
+    <!-- MODAL: HIZLI KAREKOD PENCERESİ -->
     <div id="qr-modal" class="modal-overlay">
         <div class="modal-box" style="max-width: 400px;">
             <div class="modal-header">
